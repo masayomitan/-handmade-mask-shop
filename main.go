@@ -10,14 +10,7 @@ import (
 
 		"handmade_mask_shop/domain"
 
-)		
-type User struct {
-		gorm.Model
-		ID     uint
-		Name         string
-		Email        *string
-		Age          uint8
-}
+)
 
 func main() {
 		r := gin.Default()
@@ -28,22 +21,25 @@ func main() {
 			panic ("データベースとの通信に失敗しました。")
 		}
 		
-
 		// Migrate the schema
 		db.AutoMigrate( &domain.User{} )
 		db.AutoMigrate( &domain.Item{})
+		db.AutoMigrate( &domain.Category{})
+		db.AutoMigrate( &domain.Purchase{})
+		db.AutoMigrate( &domain.Review{})
+		db.AutoMigrate( &domain.Contact{})
 		
-		r.LoadHTMLGlob("./templates/*")
+		r.LoadHTMLGlob("./templates/**/*")
+		
+    r.Static("/src", "./src")
 
 		r.GET("/", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "index.html", gin.H{
+			c.HTML(http.StatusOK, "top/index.html", gin.H{})
 		})
-	})
+		
 
 		r.GET("/detail", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "detail.html", gin.H{
-				
-			})
+			c.HTML(http.StatusOK, "top/detail.html", gin.H{})
 	})
 
 	r.Run(":80")
