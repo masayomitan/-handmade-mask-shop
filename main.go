@@ -29,7 +29,7 @@ func main() {
 		db.AutoMigrate( &domain.Review{})
 		db.AutoMigrate( &domain.Contact{})
 		
-		r.LoadHTMLGlob("./templates/**/*")
+		r.LoadHTMLGlob("./templates/**/**/*")
 		
     r.Static("/src", "./src")
 
@@ -37,10 +37,18 @@ func main() {
 			c.HTML(http.StatusOK, "top/index.html", gin.H{})
 		})
 		
-
 		r.GET("/detail", func(c *gin.Context) {
 			c.HTML(http.StatusOK, "top/detail.html", gin.H{})
-	})
+		})
+		
+		//admin
+		r.GET("/admin/dashboard", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "admin/dashboard/index.html", gin.H{})
+		})
+
+		r.GET("/admin/item", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
+		})
 
 	r.Run(":80")
 };
