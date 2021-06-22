@@ -6,11 +6,13 @@ import (
 
 		"gorm.io/driver/mysql"
 		"gorm.io/gorm"
-		"net/http"
-
+		// "net/http"
+		// "html/template"
+		"handmade_mask_shop/routes"
 		"handmade_mask_shop/domain"
 
 )
+
 
 func main() {
 		r := gin.Default()
@@ -29,26 +31,18 @@ func main() {
 		db.AutoMigrate( &domain.Review{})
 		db.AutoMigrate( &domain.Contact{})
 		
-		r.LoadHTMLGlob("./templates/**/**/*")
-		
+		r.LoadHTMLGlob("./templates/top/*")
+
     r.Static("/src", "./src")
 
-		r.GET("/", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "top/index.html", gin.H{})
-		})
+		r.GET("/", routes.Top)
+		r.GET("/detail", routes.TopDetail)
 		
-		r.GET("/detail", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "top/detail.html", gin.H{})
-		})
+		r.GET("/admin/dashboard", routes.AdminDashboard)
+		r.GET("/admin/item", routes.AdminItems)
 		
-		//admin
-		r.GET("/admin/dashboard", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "admin/dashboard/index.html", gin.H{})
-		})
 
-		r.GET("/admin/item", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
-		})
 
 	r.Run(":80")
+
 };

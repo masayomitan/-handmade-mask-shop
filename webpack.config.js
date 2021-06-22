@@ -5,8 +5,8 @@ var path    = require('path');
 module.exports = {
     context: path.join(__dirname, "src"),
     entry: { 
-      "./js/app.js":
-      "./css/style.css"
+      js: "./js/app.js",
+      css: "./css/style.css"
     },
     module: {
       rules: [{
@@ -43,7 +43,7 @@ module.exports = {
     },
     output: {
       path: __dirname + "/src/",
-      filename: "bundle.js",
+      filename: "[name]_bundle.js",
     },
     plugins: debug ? [] : [
       new webpack.optimize.OccurrenceOrderPlugin(),
