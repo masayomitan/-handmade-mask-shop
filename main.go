@@ -31,15 +31,21 @@ func main() {
 		db.AutoMigrate( &domain.Review{})
 		db.AutoMigrate( &domain.Contact{})
 		
-		r.LoadHTMLGlob("./templates/top/*")
+		files := []string{ 
+			"./templates/top/index.html", "./templates/top/detail.html",
+			"./templates/admin/dashboard/index.html", "./templates/admin/item/index.html", "./templates/admin/item/detail.html", "./templates/admin/item/create.html",
+		}
 
-    r.Static("/src", "./src")
+		r.LoadHTMLFiles(files...)
+		r.Static("/src", "./src")
 
 		r.GET("/", routes.Top)
-		r.GET("/detail", routes.TopDetail)
+		r.GET("/detail:id", routes.TopDetail)
 		
 		r.GET("/admin/dashboard", routes.AdminDashboard)
-		r.GET("/admin/item", routes.AdminItems)
+		r.GET("/admin/item", routes.AdminItem)
+		r.GET("/admin/item/detail/:id", routes.AdminItemDetail)
+		r.POST("/admin/item/create", routes.AdminItemCreate)
 		
 
 
