@@ -7,7 +7,6 @@ import (
 		"gorm.io/driver/mysql"
 		"gorm.io/gorm"
 		// "net/http"
-		// "html/template"
 		"handmade_mask_shop/routes"
 		"handmade_mask_shop/domain"
 
