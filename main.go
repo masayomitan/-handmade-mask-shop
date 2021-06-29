@@ -3,10 +3,9 @@ package main
 import (
 		"github.com/gin-gonic/gin"
 		_ "github.com/go-sql-driver/mysql"
-
+		// "fmt"
 		"gorm.io/driver/mysql"
 		"gorm.io/gorm"
-		// "net/http"
 		"handmade_mask_shop/routes"
 		"handmade_mask_shop/domain"
 
@@ -15,6 +14,11 @@ import (
 
 func main() {
 		r := gin.Default()
+		
+		//if we not found route
+		r.NoRoute(func(c *gin.Context) {
+			c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+	})
 		
 		dsn := "root:@tcp(127.0.0.1:3306)/handmade_db?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -40,14 +44,15 @@ func main() {
 
 		r.GET("/", routes.Top)
 		r.GET("/detail:id", routes.TopDetail)
-		
 		r.GET("/admin/dashboard", routes.AdminDashboard)
-		r.GET("/admin/item", routes.AdminItem)
-		r.GET("/admin/item/detail/:id", routes.AdminItemDetail)
-		r.POST("/admin/item/create", routes.AdminItemCreate)
 		
-
-
+		v1 := r.Group("/admin/")
+		{	
+			v1.GET("/item", routes.AdminItem)
+			v1.GET("/item/detail/:id", routes.AdminItemDetail)
+			v1.GET("/item/create", routes.AdminItemCreate)
+			v1.POST("/item/store", routes.AdminItemCreate)
+		}
 	r.Run(":80")
 
 };

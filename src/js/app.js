@@ -1,3 +1,8 @@
-import App from "./app";
+//user
 
-import itemCreate from "./admin/itemCreate";
+
+
+
+
+//admin
+import ItemCreate from "./components/admin/itemCreate";
