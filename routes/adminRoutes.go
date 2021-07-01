@@ -21,3 +21,7 @@ func AdminItemDetail(c *gin.Context) {
 func AdminItemCreate(c *gin.Context) {
 	c.HTML(http.StatusOK, "admin/item/create.html", gin.H{})
 }
+
+func AdminItemStore(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}

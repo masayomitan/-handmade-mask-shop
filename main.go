@@ -8,9 +8,17 @@ import (
 		"gorm.io/gorm"
 		"handmade_mask_shop/routes"
 		"handmade_mask_shop/domain"
-
 )
 
+func dbInsert(text string, status string) {
+	dsn := "root:@tcp(127.0.0.1:3306)/handmade_db?charset=utf8mb4&parseTime=True&loc=Local"
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+			panic("データベース開けず！（dbInsert)")
+	}
+	db.Create(&Item{Name: name})
+	defer db.Close()
+}
 
 func main() {
 		r := gin.Default()
@@ -51,7 +59,7 @@ func main() {
 			v1.GET("/item", routes.AdminItem)
 			v1.GET("/item/detail/:id", routes.AdminItemDetail)
 			v1.GET("/item/create", routes.AdminItemCreate)
-			v1.POST("/item/store", routes.AdminItemCreate)
+			v1.POST("/item/store", routes.AdminItemStore)
 		}
 	r.Run(":80")
 
