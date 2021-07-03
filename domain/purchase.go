@@ -20,10 +20,3 @@ type Purchase struct {
 
 type Purcahses []Purchase
 
-// type PurcahsesUsecase interface {
-// 	FindAll() ([]User, error)
-// 	Update(id int) error
-// 	Store(user User) error
-// 	Delete(id int) error
-// 	Search(key string) ([]User, error)
-// }
