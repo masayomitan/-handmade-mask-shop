@@ -4,27 +4,23 @@ import (
 		"github.com/gin-gonic/gin"
 		_ "github.com/go-sql-driver/mysql"
 		// "fmt"
-
 		"handmade_mask_shop/infrastructure/database"
 		"handmade_mask_shop/routes"
-		// "handmade_mask_shop/domain"
 )
 
 
 
 func main() {
 		r := gin.Default()
+	
 		
 		//if we not found route
 		r.NoRoute(func(c *gin.Context) {
 			c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
 	})
 		
-		
-	database.Migrations()
-
-	
-		
+	db := database.Initialize()
+	database.Migrations( db )
 		
 		files := []string{ 
 			"./templates/top/index.html", "./templates/top/detail.html",
