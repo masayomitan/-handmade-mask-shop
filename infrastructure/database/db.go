@@ -33,8 +33,7 @@ func Initialize() *gorm.DB {
 		PROTOCOL = os.Getenv("DB_PROTOCOL")
 	}
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8mb4&parseTime=True&loc=Local"
-
-		db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
+  db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 		if err != nil {
 			panic ("データベースとの通信に失敗しました。")
 		}

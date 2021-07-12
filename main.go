@@ -8,11 +8,8 @@ import (
 		"handmade_mask_shop/routes"
 )
 
-
-
 func main() {
 		r := gin.Default()
-	
 		
 		//if we not found route
 		r.NoRoute(func(c *gin.Context) {
