@@ -1,8 +1,13 @@
 {{ define "admin/item/create.html" }}
 
-    <body>
+    <!-- <body>
         <div id="item_create"></div>
         <script src="/src/js_bundle.js"></script>
-    </body>
+    </body> -->
+
+    <form method="post" action="/admin/item/store/">
+        <input name="name" type="text">
+        <button type="submit">push</button>
+    </form>
 
 {{ end }}

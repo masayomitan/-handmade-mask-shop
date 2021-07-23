@@ -3,10 +3,9 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"handmade_mask_shop/domain"
+	"handmade_mask_shop/infrastructure/database"
 	"net/http"
   "fmt"
-	"gorm.io/gorm"
-	"gorm.io/driver/mysql"
 	_ "github.com/go-sql-driver/mysql"
 
 )
@@ -19,24 +18,24 @@ func ItemsCreate(c *gin.Context) {
 		c.String(http.StatusBadRequest, "Bad request")
 		return
 	}
-
 }
 
 func ItemsStore(c *gin.Context) {
-	dsn := "root:@tcp(127.0.0.1:3306)/handmade_db?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	fmt.Println(db)
-	var item domain.Item
-	c.BindJSON(&item)
-	fmt.Println(item.Name)
-	c.JSON(200, gin.H{
-		"message": item.Name,
-	})
+	// db := database.GormConnect()
+	// name := c.PostForm("name")
+	// fmt.Printf("name: %s;", name,)
+	c.Redirect(http.StatusMovedPermanently, "http://www.google.com/")
 
-	err := c.Bind(&item)
-	if err != nil {
+  var item domain.Item
+	err := c.BindJSON(&item)
+	if err != nil{
 		c.String(http.StatusBadRequest, "Bad request")
 		return
-	}
-
+  }
+	
+	c.JSON(http.StatusCreated, gin.H{
+		"status": "ok",
+  })
+	c.Redirect(http.StatusFound, "/admin/item/create")
 }
+

@@ -9,15 +9,19 @@ const ItemCreate = () =>  {
   const onSubmit = (data) => {
     console.log(data)
     
-    axios.post( '/admin/item/store', data )
-        .then(response => {
-          console.log(response.data);
-      })
-      .catch(err => {
-          console.log(err);
-      });
-
-  }
+    axios.post( '/admin/item/store', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+    })
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+  };
 
 
   return (
@@ -37,7 +41,5 @@ const ItemCreate = () =>  {
 const ItemForm = document.getElementById("item_create");
 
 ReactDOM.render(
-
   <ItemCreate/>, ItemForm
-  
 );

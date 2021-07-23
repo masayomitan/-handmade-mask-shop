@@ -16,7 +16,7 @@ func main() {
 			c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
 	})
 		
-	db := database.Initialize()
+	db := database.GormConnect()
 	database.Migrations( db )
 		
 		files := []string{ 

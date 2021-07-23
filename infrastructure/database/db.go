@@ -13,7 +13,7 @@ type DB struct {
 	db *gorm.DB
 }
 
-func Initialize() *gorm.DB {
+func GormConnect() *gorm.DB {
 
 	err := godotenv.Load((".env"))
     if err != nil {
@@ -32,8 +32,10 @@ func Initialize() *gorm.DB {
 		DBNAME = os.Getenv("DB_DATABASE")
 		PROTOCOL = os.Getenv("DB_PROTOCOL")
 	}
+
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8mb4&parseTime=True&loc=Local"
-  db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
+  
+	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
 		if err != nil {
 			panic ("データベースとの通信に失敗しました。")
 		}

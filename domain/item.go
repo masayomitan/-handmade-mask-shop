@@ -9,9 +9,9 @@ import (
 type Item struct {
 	ID           uint              `gorm:"primaryKey"`
 	Name         string
-	category_id  uint
-	comment      string
-	like         int
+	Category_id  uint
+	Comment      string
+	Like         int
 
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
