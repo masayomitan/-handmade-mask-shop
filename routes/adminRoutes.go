@@ -6,6 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func getRouteAdminItemGroup() *gin.Engine {
+    
+    // return routes/
+}
+
 func AdminDashboard(c *gin.Context) {
 	c.HTML(http.StatusOK, "admin/dashboard/index.html", gin.H{})
 }

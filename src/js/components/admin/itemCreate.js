@@ -37,7 +37,7 @@ const ItemCreate = () =>  {
     </form>
   )
 }
-
+ 
 const ItemForm = document.getElementById("item_create");
 
 ReactDOM.render(

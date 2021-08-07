@@ -11,12 +11,12 @@ var db *gorm.DB
 
 func Migrations( db *gorm.DB ) {
 
-		db.AutoMigrate( &domain.User{} )
-		db.AutoMigrate( &domain.Item{})
-		db.AutoMigrate( &domain.Category{})
-		db.AutoMigrate( &domain.Purchase{})
-		db.AutoMigrate( &domain.Review{})
-		db.AutoMigrate( &domain.Contact{})
+		db.AutoMigrate(&domain.User{} )
+		db.AutoMigrate(&domain.Item{})
+		db.AutoMigrate(&domain.Category{})
+		db.AutoMigrate(&domain.Purchase{})
+		db.AutoMigrate(&domain.Review{})
+		db.AutoMigrate(&domain.Contact{})
 }
 
 

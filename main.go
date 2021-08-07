@@ -17,7 +17,7 @@ func main() {
 	})
 		
 	db := database.GormConnect()
-	database.Migrations( db )
+	database.Migrations(db)
 		
 		files := []string{ 
 			"./templates/top/index.html", "./templates/top/detail.html",
