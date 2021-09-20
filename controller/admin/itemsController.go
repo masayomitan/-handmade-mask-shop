@@ -3,15 +3,19 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"handmade_mask_shop/domain"
-	"handmade_mask_shop/infrastructure/database"
+	// "handmade_mask_shop/infrastructure/database"
 	"net/http"
-  "fmt"
+  // "fmt"
 	_ "github.com/go-sql-driver/mysql"
 
 )
 
+func Index(c *gin.Context) {
+	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
+}
+
 //create item
-func ItemsCreate(c *gin.Context) {
+func Create(c *gin.Context) {
 	item := domain.Item{}
 	err := c.Bind(&item)
 	if err != nil {
@@ -20,7 +24,7 @@ func ItemsCreate(c *gin.Context) {
 	}
 }
 
-func ItemsStore(c *gin.Context) {
+func Store(c *gin.Context) {
 	// db := database.GormConnect()
 	// name := c.PostForm("name")
 	// fmt.Printf("name: %s;", name,)
@@ -39,3 +43,6 @@ func ItemsStore(c *gin.Context) {
 	c.Redirect(http.StatusFound, "/admin/item/create")
 }
 
+func Detail(c *gin.Context) {
+	c.HTML(http.StatusOK, "admin/item/detail.html", gin.H{})
+}

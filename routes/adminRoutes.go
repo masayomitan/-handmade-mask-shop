@@ -1,32 +1,28 @@
 package routes
 
 import (
-	"net/http"
+	// "net/http"
   // "fmt"
 	"github.com/gin-gonic/gin"
+	"handmade_mask_shop/controller/admin"
 )
 
-func getRouteAdminItemGroup( *gin.Engine ){
-    
-    // return routes/Z
-}
+func GetAdminRoutes() *gin.Engine {
 
-func AdminDashboard(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/dashboard/index.html", gin.H{})
-}
+	r := gin.Default()
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
+  })
 
-func AdminItem(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
-}
-
-func AdminItemDetail(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/item/detail.html", gin.H{})
-}
-
-func AdminItemCreate(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/item/create.html", gin.H{})
-}
-
-func AdminItemStore(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+	r.GET("/admin/dashboard", controller.Dashboard)
+	
+	//商品グループ
+	v1 := r.Group("/admin/item/")
+		{	
+			v1.GET("/", controller.Index)
+			v1.GET("/detail/:id", controller.Detail)
+			v1.GET("/create", controller.Create)
+			v1.POST("/store", controller.Store)
+		}
+  return r
 }

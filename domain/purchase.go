@@ -19,4 +19,3 @@ type Purchase struct {
 }
 
 type Purcahses []Purchase
-
