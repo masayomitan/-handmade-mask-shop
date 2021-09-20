@@ -9,12 +9,14 @@ const ItemCreate = () =>  {
   const onSubmit = (data) => {
     console.log(data)
     
-    axios.post( '/admin/item/store', data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-    })
+    axios.post( '/admin/item/store', 
+        data, {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+        }
+    )
     .then(response => {
         console.log(response.data);
     })

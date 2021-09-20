@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getRouteAdminItemGroup() *gin.Engine {
+func getRouteAdminItemGroup( *gin.Engine ){
     
-    // return routes/
+    // return routes/Z
 }
 
 func AdminDashboard(c *gin.Context) {
