@@ -30,7 +30,7 @@ func Store(c *gin.Context) {
 	database.GormConnect()
 	var json domain.Item
 
-	name := c.PostForm("")
+	name := c.PostForm("name")
 	fmt.Println("name:", name,)
 
   // var item domain.Item
