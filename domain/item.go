@@ -8,7 +8,7 @@ import (
 
 type Item struct {
 	ID           uint              `gorm:"primaryKey"`
-	Name         string
+	Name         string  `json:"name"`
 	Category_id  uint
 	Comment      string
 	Like         int

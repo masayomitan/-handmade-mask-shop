@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
-import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 
 const ItemCreate = () =>  {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const [name, setName] = useState('')
 
   const onSubmit = (data) => {
-    console.log(data)
+    
+    const itemData = {
+      name: data,
+    };
+    console.log(itemData)
     
     axios.post( '/admin/item/store', 
-        data, {
+        itemData, {
             headers: {
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest'
@@ -25,23 +28,29 @@ const ItemCreate = () =>  {
     });
   };
 
+  const handleChange = (e) => {
+    // console.log(e.target.value)
+    setName(() => e.target.value)
+  }
 
   return (
-  
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* <input defaultValue="test" {...register("name")} /> */}
-      
-      <input {...register("name", { required: true })} />
-
-      {errors.name && <span>未入力です</span>}
-      
-      <input type="submit" />
-    </form>
+      <>
+          <input 
+            type="text"
+            name="name"
+            value={name}
+            required="required"
+            onChange={handleChange}
+          />
+          <button type="submit" onClick={() => onSubmit(name)} />登録する
+      </>
   )
 }
- 
+
 const ItemForm = document.getElementById("item_create");
 
 ReactDOM.render(
   <ItemCreate/>, ItemForm
 );
+
+export default ItemEdit

@@ -5,4 +5,4 @@
 
 
 //admin
-import ItemCreate from "./components/admin/itemCreate";
+import ItemEdit from "./components/admin/itemCreate";
