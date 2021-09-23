@@ -16,7 +16,7 @@ type Item struct {
 
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-	DeletedAt    time.Time
+	DeletedAt    time.Time  `json:"deleted_at" gorm:"default:'1970-01-01 00:00:01'"`
 }
 
 type Items []Item

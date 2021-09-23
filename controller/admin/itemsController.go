@@ -5,6 +5,7 @@ import (
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/infrastructure/database"
 	"net/http"
+	"time"
   "fmt"
 	_ "github.com/go-sql-driver/mysql"
 
@@ -30,21 +31,21 @@ func Store(c *gin.Context) {
 
 	db := database.GormConnect()
 	fmt.Println(db)
-	var json domain.Item
-	c.Bind(&json)
+	var jsonItem domain.Item
+	err := c.Bind(&jsonItem)
+  if err != nil {
+		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		return
+	}
+	now := time.Now()
+  jsonItem.CreatedAt = now
+  jsonItem.UpdatedAt = now
+  
+	db.Create(&jsonItem)
 
-	name := c.PostForm("name")
-	fmt.Println("name:", name,)
-
-  // var item domain.Item
-	// err := c.BindJSON(&item)
-	// if err != nil{
-	// 	c.String(http.StatusBadRequest, "Bad request")
-	// 	return
-  // }
 	c.JSON(http.StatusCreated, gin.H{
-		"name": json.Name,
-		"detail": json.Detail,
+		"name": jsonItem.Name,
+		"detail": jsonItem.Detail,
   })
 	c.Redirect(http.StatusFound, "/admin/item/create")
 }
