@@ -27,8 +27,11 @@ func Create(c *gin.Context) {
 }
 
 func Store(c *gin.Context) {
-	database.GormConnect()
+
+	db := database.GormConnect()
+	fmt.Println(db)
 	var json domain.Item
+	c.Bind(&json)
 
 	name := c.PostForm("name")
 	fmt.Println("name:", name,)
@@ -40,8 +43,8 @@ func Store(c *gin.Context) {
 	// 	return
   // }
 	c.JSON(http.StatusCreated, gin.H{
-		"status": name,
-		"str": json.Name,
+		"name": json.Name,
+		"detail": json.Detail,
   })
 	c.Redirect(http.StatusFound, "/admin/item/create")
 }

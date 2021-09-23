@@ -1,23 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
 
 const ItemCreate = () =>  {
-  const [name, setName] = useState('')
+  const [name, setName]     = useState('')
+  const [detail, setDetail]     = useState('')
 
   const onSubmit = (data) => {
-    
+
     const itemData = {
-      name: data,
+      name: data.name,
+      detail: data.detail,
     };
     console.log(itemData)
     
-    axios.post( '/admin/item/store', 
-        itemData, {
+    axios.post( '/admin/item/store', itemData, {
             headers: {
               'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest'
+              'X-Requested-With': 'XMLHttpRequest',
+              // 'X-CSRF-TOKEN' : csrf
             },
+          
         }
     )
     .then(response => {
@@ -29,8 +32,17 @@ const ItemCreate = () =>  {
   };
 
   const handleChange = (e) => {
-    // console.log(e.target.value)
-    setName(() => e.target.value)
+    switch (e.target.name) {
+      case 'name':
+        console.log(e.target.name)
+      setName(() => e.target.value)
+      return
+      
+      case 'detail':
+        console.log(e.target.name)
+      setDetail(() => e.target.value)
+      return
+    }
   }
 
   return (
@@ -42,7 +54,15 @@ const ItemCreate = () =>  {
             required="required"
             onChange={handleChange}
           />
-          <button type="submit" onClick={() => onSubmit(name)} />登録する
+          <input 
+            type="textarea"
+            name="detail"
+            value={detail}
+            required="required"
+            onChange={handleChange}
+          />
+
+          <button type="submit" onClick={() => onSubmit(data)} />登録する
       </>
   )
 }
@@ -53,4 +73,4 @@ ReactDOM.render(
   <ItemCreate/>, ItemForm
 );
 
-export default ItemEdit
+export default ItemForm
