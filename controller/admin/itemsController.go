@@ -3,12 +3,10 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"handmade_mask_shop/domain"
-	"handmade_mask_shop/infrastructure/database"
+	"handmade_mask_shop/repository"
 	"net/http"
-	"time"
-  "fmt"
+  // "fmt"
 	_ "github.com/go-sql-driver/mysql"
-
 )
 
 
@@ -16,36 +14,33 @@ func Index(c *gin.Context) {
 	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
 }
 
-//create item
+//create item with files
 func Create(c *gin.Context) {
-	// item := domain.Item{}
-	// err := c.Bind(&item)
-	// if err != nil {
-	// 	c.String(http.StatusBadRequest, "Bad request")
-	// 	return
-// 	}
+
   c.HTML(http.StatusOK, "admin/item/create.html", gin.H{})
 }
 
 func Store(c *gin.Context) {
+  
+	filePath := "../../public/images"
+	// image, header, _ := c.Request.FormFile("image")
+	// saveFile, _ := os.Create("./images/" + header.Filename)
 
-	db := database.GormConnect()
-	fmt.Println(db)
-	var jsonItem domain.Item
-	err := c.Bind(&jsonItem)
+  //saving formData
+	var item domain.Item		
+	err := c.Bind(&item)
   if err != nil {
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
-	now := time.Now()
-  jsonItem.CreatedAt = now
-  jsonItem.UpdatedAt = now
-  
-	db.Create(&jsonItem)
+
+	repository.SaveItem(&item)
+
+	// repository.SaveItemImage(files)
 
 	c.JSON(http.StatusCreated, gin.H{
-		"name": jsonItem.Name,
-		"detail": jsonItem.Detail,
+		"name": item.Name,
+		"detail": item.Detail,
   })
 	c.Redirect(http.StatusFound, "/admin/item/create")
 }

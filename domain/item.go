@@ -8,15 +8,18 @@ import (
 
 type Item struct {
 	ID           uint    `gorm:"primaryKey"`
-	Name         string  `json:"name"`
-	Detail       string  `json:"detail"`
-	Like         int     `json:"like"`
-	Category_id  uint    `json:"category_id"`
-	Display_flg  bool    `json:"display_flg"`
+	Name         string  `form:"name"`
+	Detail       string  `form:"detail"`
+	Like         int     `form:"like"`
+	CategoryId  uint     `form:"categoryId"`
+	Display_flg  bool    `form:"display_flg"`
+
+	ItemImages []ItemImage 
+	
 
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
-	DeletedAt    time.Time  `json:"deleted_at" gorm:"default:'1970-01-01 00:00:01'"`
+	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
 }
 
 type Items []Item

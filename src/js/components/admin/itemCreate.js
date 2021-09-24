@@ -3,22 +3,22 @@ import ReactDOM from "react-dom";
 import axios from 'axios';
 
 const ItemCreate = () =>  {
-  const [data, setData]     = useState([])
+
+  const [data, setData] = useState([])
+  const [image, setImage] = useState("")
 
   const onSubmit = (data) => {
-    
-    const itemData = {
-      name: data.name,
-      detail: data.detail,
-    };
-    
+
+    const itemData = new FormData()
+    itemData.append("name", data.name)
+    itemData.append("detail", data.detail)
+    itemData.append("image", fileInput.current.files[0])
+
     axios.post( '/admin/item/store', itemData, {
             headers: {
-              'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
-              // 'X-CSRF-TOKEN' : csrf
+              'content-type': 'multipart/form-data',
             },
-          
         }
     )
     .then(response => {
@@ -30,10 +30,13 @@ const ItemCreate = () =>  {
   };
 
   const handleChange = (e) => {
-      const name = e.target.name;
-      const value = e.target.value;
+      const target = e.target;
+      const name = target.name;
+      const value = target.type === "file" ? target.files[0] : target.value;
       setData({...data, [name]: value})
   }
+
+  const fileInput = React.createRef()
 
   return (
       <>
@@ -51,6 +54,14 @@ const ItemCreate = () =>  {
             required="required"
             onChange={handleChange}
           />
+          <input 
+            type="file" 
+            multiple="multiple"
+            name="image" 
+            ref={fileInput}
+            onChange={handleChange}
+            accept="image/*"
+          />
 
           <button type="submit" onClick={() => onSubmit(data)} />登録する
       </>
@@ -63,4 +74,4 @@ ReactDOM.render(
   <ItemCreate/>, ItemForm
 );
 
-export default ItemForm
+// export default ItemEdit

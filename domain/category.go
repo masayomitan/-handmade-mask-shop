@@ -7,8 +7,10 @@ import (
 )
 
 type Category struct {
-	ID           uint              `gorm:"primaryKey"`
-	Name         string
+	ID           uint   `gorm:"primaryKey"`
+	Name         string  `form:"name"`
+
+	Items []Item
 
 	CreatedAt    time.Time
 	UpdatedAt    time.Time

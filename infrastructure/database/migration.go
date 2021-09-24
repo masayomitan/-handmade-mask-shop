@@ -13,6 +13,7 @@ func Migrations( db *gorm.DB ) {
 
 		db.AutoMigrate(&domain.User{} )
 		db.AutoMigrate(&domain.Item{})
+		db.AutoMigrate(&domain.ItemImage{})
 		db.AutoMigrate(&domain.Category{})
 		db.AutoMigrate(&domain.Purchase{})
 		db.AutoMigrate(&domain.Review{})
