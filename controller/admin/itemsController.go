@@ -23,8 +23,8 @@ func Create(c *gin.Context) {
 func Store(c *gin.Context) {
   
 	filePath := "../../public/images"
-	// image, header, _ := c.Request.FormFile("image")
-	// saveFile, _ := os.Create("./images/" + header.Filename)
+	image, header, _ := c.Request.FormFile("image")
+	// saveFile, _ := os.Create("./public/images/" + header.Filename)
 
   //saving formData
 	var item domain.Item		
