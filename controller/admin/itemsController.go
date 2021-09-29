@@ -5,7 +5,10 @@ import (
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/repository"
 	"net/http"
-  // "fmt"
+	"path/filepath"
+  "fmt"
+	"os"
+	"github.com/google/uuid"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -22,10 +25,6 @@ func Create(c *gin.Context) {
 
 func Store(c *gin.Context) {
   
-	filePath := "../../public/images"
-	image, header, _ := c.Request.FormFile("image")
-	// saveFile, _ := os.Create("./public/images/" + header.Filename)
-
   //saving formData
 	var item domain.Item		
 	err := c.Bind(&item)
@@ -34,15 +33,35 @@ func Store(c *gin.Context) {
 		return
 	}
 
-	repository.SaveItem(&item)
+	id := repository.SaveItem(&item)
 
-	// repository.SaveItemImage(files)
+	file, _ := c.FormFile("image")
+	fileName := filepath.Ext(file.Filename)
+  newFileName := uuid.New().String() + fileName
+	filePath := "./public/images/"
+
+	if f, exist := os.Stat(filePath); os.IsNotExist(exist) || 
+	!f.IsDir() {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+      "message": "error. could not find dir",
+    })
+  }
+
+	er := c.SaveUploadedFile(file, filePath + newFileName)
+	if er != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": "Unable to save the file",
+		})
+		return
+  }
+  
+	// saving fileData
+	repository.SaveItemImage(newFileName, id)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"name": item.Name,
 		"detail": item.Detail,
   })
-	c.Redirect(http.StatusFound, "/admin/item/create")
 }
 
 func Detail(c *gin.Context) {
