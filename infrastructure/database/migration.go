@@ -7,9 +7,7 @@ import (
 
 )
 
-var db *gorm.DB
-
-func Migrations( db *gorm.DB ) {
+func Migrations(db *gorm.DB) {
 
 		db.AutoMigrate(&domain.User{} )
 		db.AutoMigrate(&domain.Item{})

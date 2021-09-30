@@ -6,7 +6,7 @@ import (
 	"handmade_mask_shop/repository"
 	"net/http"
 	"path/filepath"
-  "fmt"
+  // "fmt"
 	"os"
 	"github.com/google/uuid"
 	_ "github.com/go-sql-driver/mysql"
