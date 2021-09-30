@@ -4,6 +4,7 @@ import (
 		// "github.com/gin-gonic/gin"
 		_ "github.com/go-sql-driver/mysql"
 		// "fmt"
+		// "os"
 		"handmade_mask_shop/infrastructure/database"
 		"handmade_mask_shop/routes"
 		
@@ -11,7 +12,6 @@ import (
 
 func main() {
 
-		
 	db := database.GormConnect()
 	database.Migrations(db)
 	r := routes.GetAdminRoutes()
@@ -29,5 +29,4 @@ func main() {
 		
 
 	r.Run(":80")
-
 };
