@@ -16,7 +16,11 @@ import (
 
 func Index(c *gin.Context) {
 	fmt.Println()
-	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
+	data := repository.GetAllDisplayItems()
+
+	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{
+		"data" : data,
+	})
 }
 
 //create item with files
