@@ -2,18 +2,20 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"fmt"
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/repository"
+	"handmade_mask_shop/service"
 	"net/http"
-	"path/filepath"
-  // "fmt"
 	"os"
-	"github.com/google/uuid"
+
 	_ "github.com/go-sql-driver/mysql"
+
 )
 
 
 func Index(c *gin.Context) {
+	fmt.Println()
 	c.HTML(http.StatusOK, "admin/item/index.html", gin.H{})
 }
 
@@ -24,9 +26,10 @@ func Create(c *gin.Context) {
 }
 
 func Store(c *gin.Context) {
-  
+
   //saving formData
-	var item domain.Item		
+	var item domain.Item
+
 	err := c.Bind(&item)
   if err != nil {
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
@@ -36,8 +39,7 @@ func Store(c *gin.Context) {
 	id := repository.SaveItem(&item)
 
 	file, _ := c.FormFile("image")
-	fileName := filepath.Ext(file.Filename)
-  newFileName := uuid.New().String() + fileName
+	newFileName := service.RenameFile(file.Filename)
 	filePath := "./public/images/"
 
 	if f, exist := os.Stat(filePath); os.IsNotExist(exist) || 
@@ -58,10 +60,7 @@ func Store(c *gin.Context) {
 	// saving fileData
 	repository.SaveItemImage(newFileName, id)
 
-	c.JSON(http.StatusCreated, gin.H{
-		"name": item.Name,
-		"detail": item.Detail,
-  })
+
 }
 
 func Detail(c *gin.Context) {
