@@ -40,20 +40,20 @@ func Store(c *gin.Context) {
 		return
 	}
 
-	id := repository.SaveItem(&item)
+	itemId := repository.SaveItem(&item)
 
 	file, _ := c.FormFile("image")
 	newFileName := service.RenameFile(file.Filename)
-	filePath := "./public/images/"
+	imageDir := "./public/images/" 
+	filePath := imageDir + newFileName
 
-	if f, exist := os.Stat(filePath); os.IsNotExist(exist) || 
+	if f, exist := os.Stat(imageDir); os.IsNotExist(exist) || 
 	!f.IsDir() {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
       "message": "error. could not find dir",
     })
   }
-
-	er := c.SaveUploadedFile(file, filePath + newFileName)
+	er := c.SaveUploadedFile(file, filePath)
 	if er != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 				"message": "Unable to save the file",
@@ -62,9 +62,8 @@ func Store(c *gin.Context) {
   }
   
 	// saving fileData
-	repository.SaveItemImage(newFileName, id)
-
-
+	service.ResizeFile(filePath)
+	repository.SaveItemImage(newFileName, itemId)
 }
 
 func Detail(c *gin.Context) {
