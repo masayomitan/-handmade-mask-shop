@@ -7,7 +7,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"golang.org/x/image/draw"
-	// "mime/multipart"
+
 	"os"
 	"path/filepath"
 
@@ -38,6 +38,7 @@ fmt.Println(filePath)
       return 
 	}
 	defer imageData.Close()
+
 	img, t, err := image.Decode(imageData)
 	if err != nil {
 			fmt.Fprintln(os.Stderr, err)
@@ -55,11 +56,32 @@ fmt.Println(filePath)
 	draw.CatmullRom.Scale(imgDst, imgDst.Bounds(), img, rct, draw.Over, nil)
 
 	//create resized image file
-	dst, err := os.Create(flag.Arg(1)) //maybe dst file path
+	dst, err := os.Create(filePath) //maybe dst file path
 	if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			return
 	}
 	defer dst.Close()
+	return
+	
   // return filePath
+	// switch t {
+	// case "jpeg":
+	// 		if err := jpeg.Encode(dst, imgDst, &jpeg.Options{Quality: 100}); err != nil {
+	// 				fmt.Fprintln(os.Stderr, err)
+	// 				return
+	// 		}
+	// case "gif":
+	// 		if err := gif.Encode(dst, imgDst, nil); err != nil {
+	// 				fmt.Fprintln(os.Stderr, err)
+	// 				return
+	// 		}
+	// case "png":
+	// 		if err := png.Encode(dst, imgDst); err != nil {
+	// 				fmt.Fprintln(os.Stderr, err)
+	// 				return
+	// 		}
+	// default:
+	// 		fmt.Fprintln(os.Stderr, "format error")
+	// }
 }
