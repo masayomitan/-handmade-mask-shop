@@ -20,7 +20,7 @@ func main() {
 			"./templates/top/index.html", "./templates/top/detail.html",
 			"./templates/admin/dashboard/index.html", "./templates/admin/item/index.html", "./templates/admin/item/detail.html", "./templates/admin/item/create.html",
 		  "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
-			"./templates/admin/element/header.html", "./templates/admin/element/footer.html",
+			"./templates/admin/element/header.html", "./templates/admin/element/footer.html", "./templates/admin/element/sidebar.html",
 		}
 
 		r.LoadHTMLFiles(files...)

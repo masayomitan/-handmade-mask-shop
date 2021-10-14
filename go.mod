@@ -3,7 +3,6 @@ module handmade_mask_shop
 go 1.15
 
 require (
-	github.com/gin-contrib/multitemplate v0.0.0-20211002122701-e9e3201b87a0
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/uuid v1.3.0
