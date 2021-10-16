@@ -1,9 +1,43 @@
 {{ define "admin/item/index.html" }}
+    {{ template "admin_default" . }}
+    {{ template "sidebar" . }}
+    <button class="bg-indigo-700 font-semibold text-white py-2 px-4 rounded">ボタン</button>
+    <div class="ui container container-2">
+        <div class="ui link cards">
+            {{range .data}}
+              <div class="card">
+                <div class="image">
+                  {{range .ItemImages}}
+                      <img src="{{.File_path}}"/>
+                  {{ end }}
+                </div>
+                <div class="content">
+                  <div class="header">
+                      商品名 {{.Name}}
+                  </div>>
+                  <div class="meta">
+                    <a>Friends</a>
+                  </div>
+                  <div class="description">
+                    詳細   {{.Detail}}
+                    <p>通常価格 {{.Normal_price}}</p>
+                    <p>特別価格 {{.Special_price}}</p>
+                  </div>
+                </div>
+                <div class="extra content">
+                  <span class="right floated">
+    
+                  </span>
+                  <span>
+                    <i class="user icon"></i>
+                    75 Friends
+                  </span>
+                </div>
+              </div>
+          {{ end }}
+      </div>
+  </div> 
 
-item
-aaaaa
-<div id="item_create"></div>
-<script src="/src/js_bundle.js"></script>
+  
 
 {{ end }}
-

@@ -16,13 +16,13 @@ type Item struct {
 	TypeId        uint    					`form:"typeId"`
 	Like          int   					  `form:"like"`
 	CategoryId    uint  					  `form:"categoryId"`
-	Display_flg   bool  						`form:"display_flg"`
+	Display_flg   int   						`form:"display_flg" gorm:"NOT NULL"`
 
 	ItemImages []ItemImage
-
 	
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	
+	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
+	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
 }
 

@@ -15,7 +15,7 @@ func GetAdminRoutes() *gin.Engine {
   })
 
 	r.GET("/admin/dashboard", controller.Dashboard)
-	
+
 	//商品グループ
 	v1 := r.Group("/admin/item/")
 		{	

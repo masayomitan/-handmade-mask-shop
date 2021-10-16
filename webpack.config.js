@@ -1,12 +1,13 @@
 var debug   = process.env.NODE_ENV !== "production";
 var webpack = require('webpack');
 var path    = require('path');
+const tailwindCss = require('tailwindcss')
+const autoprefixer = require('autoprefixer')
 
 module.exports = {
     context: path.join(__dirname, "src"),
     entry: { 
       js: "./js/app.js",
-      // css: "./css/style.css"
     },
     stats: 'errors-only',
     output: {
@@ -24,24 +25,28 @@ module.exports = {
                   }
               }]
           },
-          // {
-          //     // 対象となるファイルの拡張子
-          //     test: /\.css/,
-          //     // ローダー名
-          //     use: [
-          //         // linkタグに出力する機能
-          //         "style-loader",
-          //         // CSSをバンドルするための機能
-          //         {
-          //             loader: "css-loader",
-          //                 options: {
-          //                   // オプションでCSS内のurl()メソッドの取り込みを禁止する
-          //                   url: false,
-          //                 }
-          //         }
-          //       ]
-          // }
-          ]
+          {
+          test: /\.css/,
+            use: [{
+              loader: "css-loader", 
+            }]
+          },
+          {
+            test: /\.css/,
+            use: [{
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  ident: 'postcss',
+                  plugins: [
+                    tailwindCss,
+                    autoprefixer
+                  ],
+                },
+              }
+            }]
+          },
+        ],
     },
     
     plugins: debug ? [] : [

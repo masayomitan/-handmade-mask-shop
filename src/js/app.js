@@ -1,8 +1,1 @@
-//user
-
-
-
-
-
-//admin
-import ItemEdit from "./components/admin/itemCreate";
+import "tailwindcss/tailwind.css"

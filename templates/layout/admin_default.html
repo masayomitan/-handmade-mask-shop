@@ -1,13 +1,23 @@
-{{ define "layout/admin_default.html" }}
+{{ define "admin_default" }}
 
+<!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../src/css/reset.css">
     <link rel="stylesheet" href="../../src/css/style.css">
+    <link rel="stylesheet" href="../../src/css/tailwind.css">
+
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+
+
     <title>Sample</title>
   </head>
   <body>
-    <!-- Render the current template here -->
-    aaa
+    <h1 class="text-4xl text-green-700 text-center font-semibold">Hello Tailwind</h1>
   </body>
 </html>
 

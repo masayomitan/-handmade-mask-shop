@@ -10,8 +10,10 @@ import (
 
 )
 
-
 func Dashboard(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/dashboard/index.html", gin.H{})
+	c.HTML(http.StatusOK, "admin/dashboard", gin.H{
+		"param1": "ダッシュボードです",
+    "param2": "layoutです",
+	})
 }
 

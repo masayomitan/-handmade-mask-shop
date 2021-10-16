@@ -12,9 +12,10 @@ type Category struct {
 
 	Items []Item
 
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    time.Time
+	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
+	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
+	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
+
 }
 
 type Categories []Category

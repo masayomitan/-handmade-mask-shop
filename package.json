@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack --mode development",
     "watch": "webpack --mode development --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tail": "tailwind build ./public/css/tailwind.css -o ./src/css/tailwind.css"
   },
   "repository": {
     "type": "git",
@@ -22,16 +23,21 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "autoprefixer": "^10.3.7",
     "babel-loader": "^8.2.2",
+    "css-loader": "^6.4.0",
+    "postcss": "^8.3.9",
+    "postcss-loader": "^6.2.0",
+    "postcss-preset-env": "^6.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "tailwindcss": "^2.2.17",
     "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "css-loader": "^5.2.6",
     "fontsource-roboto": "^4.0.0",
     "react-hook-form": "^7.9.0",
     "recharts": "^2.1.3",

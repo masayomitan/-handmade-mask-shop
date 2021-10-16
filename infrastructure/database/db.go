@@ -38,6 +38,7 @@ func GormConnect() *gorm.DB {
 		if err != nil {
 			panic ("データベースとの通信に失敗しました。")
 		}
+	
 	return db
 }
 

@@ -1,0 +1,43 @@
+{{ define "sidebar" }}
+
+
+<div class="ui fixed menu">
+  <div class="menu">
+    <div id="js-sidebar" class="item"><i class="icon large grey content"></i></div>
+  </div>
+</div>
+<div class="h-auto w-32 p-6 ...">h-auto</div>
+
+  <a class="text-xs">
+    <i class="text-xs"></i>
+    Menu
+  </a>
+  <div class="h-auto w-32 p-6 ...">h-auto</div>
+  <div class="ui thin sidebar inverted vertical menu">
+    <a class="item" href="/admin/dashboard">
+      <i class="home icon"></i>
+      トップ
+    </a>
+    <a class="item" href="/admin/item">
+      <i class="block layout icon"></i>
+      商品
+    </a>
+    <a class="item">
+      <i class="smile icon"></i>
+      会員
+    </a>
+    <a class="item">
+      <i class="calendar icon"></i>
+      販売履歴
+    </a>
+  </div>
+
+
+
+<script>
+    $('#js-sidebar').click(function() {
+        $('.ui.sidebar').sidebar('toggle');
+    });
+</script>
+
+{{ end }}
