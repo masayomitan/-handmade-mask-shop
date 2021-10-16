@@ -67,5 +67,12 @@ func Store(c *gin.Context) {
 }
 
 func Detail(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/item/detail.html", gin.H{})
+	id := c.Param("id")
+	fmt.Println(id)
+
+	item := repository.GetDataById(id)
+	fmt.Println(item)
+	c.HTML(http.StatusOK, "admin/item/detail.html", gin.H{
+		"item" : item,
+	})
 }

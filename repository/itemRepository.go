@@ -14,11 +14,25 @@ import (
 
 type ItemRepository struct {}
 
+func GetDataById(id string) domain.Item {
+
+	var item domain.Item
+	db := database.GormConnect()
+	db.Where("ID =? AND items.deleted_at IS NULL", id)
+  db.Preload("ItemImages")
+	db.First(&item)
+
+	return item
+} 
+
 func GetAllDisplayItems() domain.Items {
 	var items domain.Items
   db := database.GormConnect()
 
-	db.Table("items").Where("display_flg = 1 AND items.deleted_at IS NULL").Preload("ItemImages").Find(&items)
+	db.Table("items").Where("display_flg = 1 AND items.deleted_at IS NULL")
+	db.Preload("ItemImages")
+	db.Find(&items)
+
 	return items
 }
 
