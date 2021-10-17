@@ -17,7 +17,7 @@ func SaveItemImage(fileName string, id uint) {
 
 	var data domain.ItemImage
 
-	data.ItemId    = id
+	data.ItemID    = id
 	data.File_name = fileName
 	data.File_path = filePath + fileName
 
