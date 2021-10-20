@@ -32,9 +32,11 @@ type OrderItem struct {
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
 
+	//belongsTo
 	User User
-	Order Order
 	Item Item
+	Order Order
+	
 }
 
 type OrderItems []OrderItem
