@@ -8,8 +8,8 @@ import (
 
 type Category struct {
 	ID           uint   `gorm:"primaryKey"`
-	Name         string  `form:"name"`
-	Orderby      int
+	Name         string  `json:"name"`
+	Orderby      int     `json:"orderby"`
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
