@@ -8,7 +8,7 @@ import (
 
 type Contact struct {
 	ID          uint   `gorm:"primaryKey"`
-	UserId      uint   `json:"user_id"`
+	UserID      uint   `json:"user_id"`
 	Message     string `json:"message"`
 
 	CreatedAt   time.Time  `form:"created_at" gorm:"NOT NULL"`

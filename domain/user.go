@@ -40,7 +40,7 @@ type User struct {
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
 	
-	//hasMany
+
 	Carts []Cart
 	Orders []Order
 	OrderItems []OrderItem
