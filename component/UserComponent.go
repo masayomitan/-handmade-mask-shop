@@ -6,11 +6,13 @@ import (
 )
 
 
+
+
 func HashPassword (pass string) string {
-	storePass := "pass"
+	storePass := pass
 	hash, err := bcrypt.GenerateFromPassword([]byte(storePass), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
-}
+  }
 	return string(hash);
 }
