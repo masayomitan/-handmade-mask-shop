@@ -11,6 +11,9 @@ type User struct {
 	ID        		  uint             `gorm:"primaryKey"`
 	StatusID        uint
 
+	Password        string    `gorm:"password"`
+	PasswordConfirm string    `json:"password_confirm"`
+
 	FamilyName      string
 	firstName       string
 	FamilyNameKana  string

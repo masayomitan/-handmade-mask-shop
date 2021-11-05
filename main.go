@@ -13,11 +13,13 @@ func main() {
 	fmt.Println()
 	r := gin.Default()
 
+	r = routes.GetAdminRoutes(r)
+	r = routes.GetRoutes(r)
+
 	// db := database.GormConnect()
 	// database.Migrations(db)
 	// database.Seeds(db)
-	r = routes.GetAdminRoutes(r)
-	r = routes.GetRoutes(r)
+
 
 		files := []string{ 
 			"./templates/top/index.html", "./templates/front/item/detail.html",
@@ -26,6 +28,7 @@ func main() {
 			"./templates/admin/adminUser/regist.html",
       "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
 			"./templates/admin/element/header.html", "./templates/admin/element/footer.html", "./templates/admin/element/sidebar.html",
+			"./templates/admin/login/index.html",
 		}
 
 		r.LoadHTMLFiles(files...)
