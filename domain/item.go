@@ -13,17 +13,16 @@ type Item struct {
 	Detail        string  					`form:"detail"`
 	Normal_price  decimal.Decimal   `form:"normal_price"`
 	Special_price decimal.Decimal   `form:"special_price"`
-  stock         int     				  `form:"stock"`
+  Stock         int     				  `form:"stock"`
 	Add_point     int               `form:"add_point"`
-	TypeId        uint    					`form:"typeId"`
 	Like          int   					  `form:"like"`
 	Display_flg   int   						`form:"display_flg" gorm:"NOT NULL"`
-	CategoryID    uint  					  `gorm:"category_id"  gorm:"default:'null'"`
-	
+	CategoryID    uint  					  `form:"category_id"`
+
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
-  
+
 	Category Category
 
 	ItemImages []ItemImage
