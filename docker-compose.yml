@@ -24,10 +24,10 @@
 
 
 #   db:
-#     image: mysql:5.7
+#     image: mysql:8
 #     container_name: mysql
 #     environment:
-#       MYSQL_DATABASE: output
+#       MYSQL_DATABASE: handmade_db
 #       MYSQL_USER: root
 #       MYSQL_PASSWORD: root
 #       TZ: 'Asia/Tokyo'

@@ -7,15 +7,14 @@ import (
 
 type ShopInformation struct {
 	ID            uint   `gorm:"primaryKey"`
-	Shop_name     string `form:"name"`
-	Shop_kana     string `form:"detail"`
-	Name          string `form:"name"`
-	Kana          string `form:"detail"`
-	Postal_code   int    `form:"normal_price"`
-	Address_1     string `form:"created_at"`
-	Address_2     string `form:"special_price"`
-  Phone_number  int    `form:"stock"`
-	Email         string `form:"typeId"`
+	Shop_name     string `form:"shop_name"`
+	Shop_kana     string `form:"shop_kana"`
+	Postal_code   int    `form:"Postal_code"`
+	Address_1     string `form:"address_1"`
+	Address_2     string `form:"address_2"`
+  Phone_number  int    `form:"Phone_number"`
+	Email         string `form:"Email"`
+	
 	
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
