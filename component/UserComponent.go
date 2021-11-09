@@ -5,9 +5,6 @@ import (
 	"log"
 )
 
-
-
-
 func HashPassword (pass string) string {
 	storePass := pass
 	hash, err := bcrypt.GenerateFromPassword([]byte(storePass), bcrypt.DefaultCost)
