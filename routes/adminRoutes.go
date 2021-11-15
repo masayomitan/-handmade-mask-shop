@@ -14,15 +14,17 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 	fmt.Println()
 	
 	store := cookie.NewStore([]byte("secret"))
-	r.Use(sessions.Sessions("mysession", store))
+	r.Use(sessions.Sessions("session", store))
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
   })
+
 	r.GET("/admin/dashboard", controller.Dashboard)
 	login := r.Group("/admin/login/")
 		{
 			login.GET("/", controller.Login)
+			login.POST("/signin", controller.Signin)
 		}
 
 	user := r.Group("/admin/user/")
@@ -30,12 +32,14 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 			user.GET("/regist", controller.UserRegist)
 			user.GET("/detail/:id", controller.Detail)
 		}
+		
 	//管理ユーザーグループ
 	admin := r.Group("/admin/admin-user/")
 		{	
 			admin.GET("/regist", controller.AdminRegist)
 			// user.GET("/detail/:id", controller.Detail)
 		}
+
 	//商品グループ
 	item := r.Group("/admin/item/")
 		{	
