@@ -21,10 +21,11 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
   })
 
 	r.GET("/admin/dashboard", controller.Dashboard)
-	login := r.Group("/admin/login/")
+	login := r.Group("/admin/login-top/")
 		{
-			login.GET("/", controller.Login)
-			login.POST("/signin", controller.Signin)
+			login.GET("/", controller.LoginTop)
+			login.POST("/login", controller.Login)
+			login.GET("/logout", controller.Logout)
 		}
 
 	user := r.Group("/admin/user/")
