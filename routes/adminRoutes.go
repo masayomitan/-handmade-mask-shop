@@ -1,20 +1,20 @@
 package routes
 
 import (
-	// "net/http"
-  "fmt"
-	// "log"
-	"github.com/gin-gonic/gin"
-	"handmade_mask_shop/controller/admin"
+	"net/http"
+	"fmt"
 	"github.com/gin-contrib/sessions"
-  "github.com/gin-contrib/sessions/cookie"
+	"log"
+	"handmade_mask_shop/controller/admin"
+	"handmade_mask_shop/domain"
+
+	"github.com/gin-gonic/gin"
 )
+
+var adminUser domain.AdminUser
 
 func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 	fmt.Println()
-	
-	store := cookie.NewStore([]byte("secret"))
-	r.Use(sessions.Sessions("session", store))
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
@@ -43,6 +43,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 
 	//商品グループ
 	item := r.Group("/admin/item/")
+	item.Use(sessionCheck())
 		{	
 			item.GET("/", controller.Index)
 			item.GET("/detail/:id", controller.Detail)
@@ -52,21 +53,22 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
   return r
 }
 
-// func sessionCheck() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
+func sessionCheck() gin.HandlerFunc {
+	return func(c *gin.Context) {
 
-// 			session := sessions.Default(c)
-// 			LoginInfo.UserId = session.Get("UserId")
+			session := sessions.Default(c)
+			
+			id := session.Get("adminUserID")
+fmt.Println(id)
 
-// 			// セッションがない場合、ログインフォームをだす
-// 			if LoginInfo.UserId == nil {
-// 					log.Println("ログインしていません")
-// 					c.Redirect(http.StatusFound, "/login")
-// 					c.Abort() // これがないと続けて処理されてしまう
-// 			} else {
-// 					c.Set("UserId", LoginInfo.UserId) // ユーザidをセット
-// 					c.Next()
-// 			}
-// 			log.Println("ログインチェック終わり")
-// 	}
-// }
+			if id == nil {
+          // c.JSON(http.StatusBadRequest, gin.H{"error": "error"})
+					c.Redirect(http.StatusFound, "/admin/login-top/")
+					c.Abort() // これがないと続けて処理されてしまう
+			} else {
+					c.Set("UserId", id) // ユーザidをセット
+					c.Next()
+			}
+			log.Println("done")
+	}
+}

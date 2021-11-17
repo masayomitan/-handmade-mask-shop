@@ -7,11 +7,15 @@ import (
 		// "os"
 		// "handmade_mask_shop/infrastructure/database"
 		"handmade_mask_shop/routes"
+		"github.com/gin-contrib/sessions"
+		"github.com/gin-contrib/sessions/cookie"
 )
 
 func main() {
 	fmt.Println()
 	r := gin.Default()
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("session", store))
 
 	r = routes.GetAdminRoutes(r)
 	r = routes.GetRoutes(r)
