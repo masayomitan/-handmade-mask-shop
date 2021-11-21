@@ -9,7 +9,7 @@ import (
 
 type AdminUserRepository struct {}
 
-func GetLoginAdminUserByUserName(request map[string]string) (domain.AdminUser, error) {
+func GetLoginAdminUserByRequest(request map[string]string) (domain.AdminUser, error) {
   username := request["Username"]
 
 	var adminUser domain.AdminUser

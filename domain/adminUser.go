@@ -21,3 +21,9 @@ type AdminUser struct {
 }
 
 type AdminUsers []AdminUser
+
+type SetAdminUser struct {
+	ID       interface{}
+	Username interface{}
+	Email    interface{}
+}

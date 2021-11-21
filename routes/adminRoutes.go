@@ -1,14 +1,15 @@
 package routes
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"fmt"
-	"github.com/gin-contrib/sessions"
 	"log"
+	"github.com/gin-contrib/sessions"
 	"handmade_mask_shop/controller/admin"
 	"handmade_mask_shop/domain"
-
-	"github.com/gin-gonic/gin"
+	"github.com/koron/go-dproxy"
+	"encoding/json"
 )
 
 var adminUser domain.AdminUser
@@ -21,7 +22,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
   })
 
 	r.GET("/admin/dashboard", controller.Dashboard)
-	login := r.Group("/admin/login-top/")
+	login := r.Group("/admin/")
 		{
 			login.GET("/", controller.LoginTop)
 			login.POST("/login", controller.Login)
@@ -43,7 +44,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 
 	//商品グループ
 	item := r.Group("/admin/item/")
-	item.Use(sessionCheck())
+	item.Use(LoginCheckMiddleware())
 		{	
 			item.GET("/", controller.Index)
 			item.GET("/detail/:id", controller.Detail)
@@ -53,20 +54,20 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
   return r
 }
 
-func sessionCheck() gin.HandlerFunc {
+func LoginCheckMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 			session := sessions.Default(c)
-			
-			id := session.Get("adminUserID")
-fmt.Println(id)
+			var setAdminUser domain.SetAdminUser
+			loginAdminUser, _ := dproxy.New(session.Get("adminUser")).String()
+			err := json.Unmarshal([]byte(loginAdminUser), &setAdminUser)
+			fmt.Println(setAdminUser.ID)
 
-			if id == nil {
-          // c.JSON(http.StatusBadRequest, gin.H{"error": "error"})
-					c.Redirect(http.StatusFound, "/admin/login-top/")
-					c.Abort() // これがないと続けて処理されてしまう
+			if err != nil {
+					c.Redirect(http.StatusFound, "/admin/")
+					c.Abort()
 			} else {
-					c.Set("UserId", id) // ユーザidをセット
+					c.Set("adminUser", string(loginAdminUser))
 					c.Next()
 			}
 			log.Println("done")
