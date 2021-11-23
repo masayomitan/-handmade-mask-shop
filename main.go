@@ -15,7 +15,7 @@ func main() {
 	fmt.Println()
 	r := gin.Default()
 	store := cookie.NewStore([]byte("secret"))
-	r.Use(sessions.Sessions("session", store))
+	r.Use(sessions.Sessions("sessionID", store))
 
 	r = routes.GetAdminRoutes(r)
 	r = routes.GetRoutes(r)
@@ -27,11 +27,12 @@ func main() {
 
 		files := []string{ 
 			"./templates/top/index.html", "./templates/front/item/detail.html",
-			"./templates/admin/dashboard/index.html", "./templates/admin/item/index.html", "./templates/admin/item/detail.html", "./templates/admin/item/create.html",
-			"./templates/admin/user/regist.html", 
-			"./templates/admin/adminUser/regist.html",
+
+			"./templates/admin/dashboards/index.html", "./templates/admin/items/index.html", "./templates/admin/items/detail.html", "./templates/admin/items/create.html",
+			"./templates/admin/users/regist.html", 
+			"./templates/admin/adminUsers/regist.html",
       "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
-			"./templates/admin/element/header.html", "./templates/admin/element/footer.html", "./templates/admin/element/sidebar.html",
+			"./templates/admin/elements/header.html", "./templates/admin/elements/footer.html", "./templates/admin/elements/sidebar.html",
 			"./templates/admin/login/index.html",
 		}
 

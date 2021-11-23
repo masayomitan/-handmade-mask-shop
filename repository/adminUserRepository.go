@@ -22,3 +22,6 @@ func GetLoginAdminUserByRequest(request map[string]string) (domain.AdminUser, er
 	return adminUser, nil
 }
 
+// func GetAdminUserById(id string) (domain.AdminUser){
+
+// }

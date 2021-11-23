@@ -21,7 +21,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 		c.JSON(404, gin.H{"message": "Page not found"})
   })
 
-	r.GET("/admin/dashboard", controller.Dashboard)
+	r.GET("/admin/dashboards", controller.Dashboard)
 	login := r.Group("/admin/")
 		{
 			login.GET("/", controller.LoginTop)
@@ -29,22 +29,21 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 			login.GET("/logout", controller.Logout)
 		}
 
-	user := r.Group("/admin/user/")
+	user := r.Group("/admin/users/")
 		{
 			user.GET("/regist", controller.UserRegist)
 			user.GET("/detail/:id", controller.Detail)
 		}
 		
 	//管理ユーザーグループ
-	admin := r.Group("/admin/admin-user/")
+	admin := r.Group("/admin/admin-users/")
 		{	
 			admin.GET("/regist", controller.AdminRegist)
-			// user.GET("/detail/:id", controller.Detail)
+			admin.GET("/detail", controller.AdminDetail)
 		}
 
 	//商品グループ
-	item := r.Group("/admin/item/")
-	item.Use(LoginCheckMiddleware())
+	item := r.Group("/admin/items/", LoginCheckMiddleware())
 		{	
 			item.GET("/", controller.Index)
 			item.GET("/detail/:id", controller.Detail)
@@ -64,10 +63,11 @@ func LoginCheckMiddleware() gin.HandlerFunc {
 			fmt.Println(setAdminUser.ID)
 
 			if err != nil {
-					c.Redirect(http.StatusFound, "/admin/")
+					c.Redirect(http.StatusSeeOther, "/admin/")
 					c.Abort()
 			} else {
 					c.Set("adminUser", string(loginAdminUser))
+					c.Set("id", setAdminUser.ID)
 					c.Next()
 			}
 			log.Println("done")
