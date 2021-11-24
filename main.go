@@ -30,7 +30,7 @@ func main() {
 
 			"./templates/admin/dashboards/index.html", "./templates/admin/items/index.html", "./templates/admin/items/detail.html", "./templates/admin/items/create.html",
 			"./templates/admin/users/regist.html", 
-			"./templates/admin/adminUsers/regist.html",
+			"./templates/admin/adminUsers/regist.html", "./templates/admin/adminUsers/edit.html",
       "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
 			"./templates/admin/elements/header.html", "./templates/admin/elements/footer.html", "./templates/admin/elements/sidebar.html",
 			"./templates/admin/login/index.html",

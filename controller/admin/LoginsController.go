@@ -60,13 +60,14 @@ func Login (c *gin.Context)  {
 	//interface型なので構造体をjsonに置き換える
 	jsonAdminUser, err := json.Marshal(adminUser)
 	session.Set("adminUser", string(jsonAdminUser))
+	session.Set("id", adminUser.ID)
   err = session.Save();
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return
 	}
 
-	c.Redirect(http.StatusFound, "/admin/item/")
+	c.Redirect(http.StatusFound, "/admin/items/")
 }
 
 
