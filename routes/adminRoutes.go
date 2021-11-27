@@ -12,8 +12,6 @@ import (
 	"encoding/json"
 )
 
-var adminUser domain.AdminUser
-
 func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 	fmt.Println()
 
@@ -36,10 +34,11 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 		}
 		
 	//管理ユーザーグループ
-	admin := r.Group("/admin/admin-users/")
+	admin := r.Group("/admin/admin-users/", LoginCheckMiddleware())
 		{	
 			admin.GET("/regist", controller.AdminRegist)
-			admin.GET("/detail", controller.AdminDetail)
+			admin.GET("/edit", controller.AdminEdit)
+			admin.POST("/update", controller.AdminUpdate)
 		}
 
 	//商品グループ
@@ -60,7 +59,7 @@ func LoginCheckMiddleware() gin.HandlerFunc {
 			var setAdminUser domain.SetAdminUser
 			loginAdminUser, _ := dproxy.New(session.Get("adminUser")).String()
 			err := json.Unmarshal([]byte(loginAdminUser), &setAdminUser)
-			fmt.Println(setAdminUser.ID)
+			// fmt.Println(setAdminUser.ID)
 
 			if err != nil {
 					c.Redirect(http.StatusSeeOther, "/admin/")
