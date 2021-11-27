@@ -1,55 +1,88 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
 	"fmt"
-	// "handmade_mask_shop/domain"
-	// "handmade_mask_shop/repository"
-	// "handmade_mask_shop/service"
 	"net/http"
-	// "os"
+	"github.com/gin-gonic/gin"
+	"handmade_mask_shop/component"
+	"handmade_mask_shop/domain"
+	"handmade_mask_shop/repository"
+	"handmade_mask_shop/service"
+	"github.com/gin-contrib/sessions"
 	_ "github.com/go-sql-driver/mysql"
-
 )
+
+var AdminUser domain.AdminUser
 
 func AdminRegist(c *gin.Context) {
 	fmt.Println()
-  // categories := service.GetJsonAllCategories()
-  c.HTML(http.StatusOK, "admin/adminUser/regist.html", gin.H{
-		// "categories": categories,
+
+	// db := database.GormConnect()
+	// db.Create(&AdminUser)
+}
+
+
+func AdminEdit(c *gin.Context) {
+	session := sessions.Default(c)
+	id := session.Get("id").(uint)
+
+	adminUser, err := repository.GetAdminUserByID(id)
+	if err != nil {
+		fmt.Println("error message:", err)
+		return
+	}
+	c.HTML(http.StatusOK, "admin/adminUsers/edit.html", gin.H{
+		"adminUser": adminUser,
 	})
 }
 
-// func AdminEdit(c *gin.Context) {
-//   fmt.Println()
-// 	var item domain.Item
-// 	err := c.Bind(&item)
-//   if err != nil {
-// 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
-// 		return
-// 	}
 
-// 	itemId := repository.SaveItem(&item)
-// 	file, _ := c.FormFile("image")
-// 	newFileName := service.RenameFile(file.Filename)
-// 	imageDir := "./public/images/" 
-// 	filePath := imageDir + newFileName
+func AdminUpdate (c *gin.Context) {
+	id := sessions.Default(c).Get("id").(uint)
+	if &id == nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "session not found"})
+	}
 
-// 	if f, exist := os.Stat(imageDir); os.IsNotExist(exist) || 
-// 	!f.IsDir() {
-// 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-//       "message": "error. could not find dir",
-//     })
-//   }
-// 	er := c.SaveUploadedFile(file, filePath)
-// 	if er != nil {
-// 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-// 				"message": "Unable to save the file",
-// 		})
-// 		return
-//   }
+	_, err := repository.GetAdminUserByID(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
+	}
+
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	passwordConfirm := c.PostForm("password_confirm")
+	if (password != passwordConfirm) {
+		fmt.Println("password is not match")
+		return
+	}
+	hash := component.HashPassword(password)
+
+	file, _ := c.FormFile("image")
   
-// 	// saving fileData
-// 	// service.ResizeFile(filePath)
-// 	repository.SaveItemImage(newFileName, itemId)
-// }
+	var imageID uint
+	if file != nil {
+		newFileName := service.RenameFile(file.Filename)
+		imageDir := "./public/images/" 
+		filePath := imageDir + newFileName
+
+		err = c.SaveUploadedFile(file, filePath)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+					"message": "Unable to save the file",
+			})
+			return
+		}
+		imageID = repository.SaveAdminUserImage(newFileName)
+	}
+
+	request := map[string]string{
+		"username": username,
+		"password": hash,
+	}
+
+	_, err = repository.UpdateAdminUser(id, imageID, request)
+	if err != nil {
+		fmt.Println(err)
+	}
+	c.Redirect(http.StatusFound, "/admin/admin-users/edit")
+}
