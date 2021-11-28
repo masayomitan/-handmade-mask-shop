@@ -23,8 +23,7 @@ func AdminRegist(c *gin.Context) {
 
 
 func AdminEdit(c *gin.Context) {
-	session := sessions.Default(c)
-	id := session.Get("id").(uint)
+	id := sessions.Default(c).Get("id").(uint)
 
 	adminUser, err := repository.GetAdminUserByID(id)
 	if err != nil {
