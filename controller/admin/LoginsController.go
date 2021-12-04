@@ -22,8 +22,8 @@ func LoginTop (c *gin.Context) {
 	c.HTML(http.StatusOK, "admin/login/index.html", gin.H{})
 }
 
-func Login (c *gin.Context)  {
 
+func Login (c *gin.Context)  {
 	session := sessions.Default(c)
 	//オプション指定
 	session.Options(sessions.Options{
@@ -33,15 +33,15 @@ func Login (c *gin.Context)  {
 		Path: "/",
 	})
 
-	username := c.PostForm("Username")
-	password := c.PostForm("Password")
+	username := c.PostForm("username")
+	password := c.PostForm("password")
 
 	// Validate form input
 	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can not be empty"})
 		return
 	}
-  request := map[string]string{"Username" : username, "Password" : password}
+  request := map[string]string{"username" : username, "password" : password}
 	
 	adminUser, err := repository.GetLoginAdminUserByRequest(request)
 	if err != nil {
