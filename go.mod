@@ -7,10 +7,13 @@ require (
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/google/uuid v1.3.0
+	github.com/gorilla/csrf v1.7.1
 	github.com/gorilla/sessions v1.1.3
+	github.com/gwatts/gin-adapter v0.0.0-20170508204228-c44433c485ad
 	github.com/joho/godotenv v1.3.0
 	github.com/koron/go-dproxy v1.3.0
 	github.com/shopspring/decimal v1.2.0
+	github.com/utrack/gin-csrf v0.0.0-20190424104817-40fb8d2c8fca
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d
 	// golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3
