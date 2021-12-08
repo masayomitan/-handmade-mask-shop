@@ -21,17 +21,15 @@ const imageFilePath = "./public/images/"
 
 
 func RenameFile(fileName string) string{
-
   //get extension
 	fileExt := filepath.Ext(fileName)
   newFileName := uuid.New().String() + fileExt
-
 	return newFileName
 }
 
-func ResizeFile(filePath string) {
-fmt.Println(filePath)
 
+func ResizeFile(filePath string) {
+  fmt.Println(filePath)
 	imageData, err := os.Open(filePath)
 	if err != nil {
 			fmt.Fprintln(os.Stderr, err)
