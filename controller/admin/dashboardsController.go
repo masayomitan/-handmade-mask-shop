@@ -5,13 +5,19 @@ import (
 	// "handmade_mask_shop/domain"
 	// "handmade_mask_shop/infrastructure/database"
 	"net/http"
-  // "fmt"
+  "fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gin-contrib/sessions"
 
 )
 
+
 func Dashboard(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin/dashboard", gin.H{
+	session := sessions.Default(c)
+	
+	fmt.Println(session.Get("adminUser"))
+
+	c.HTML(http.StatusOK, "admin/dashboards", gin.H{
 		"param1": "ダッシュボードです",
     "param2": "layoutです",
 	})

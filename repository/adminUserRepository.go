@@ -13,7 +13,9 @@ var adminUser domain.AdminUser
 func GetLoginAdminUserByRequest(request map[string]string) (domain.AdminUser, error) {
   username := request["username"]
 	db := database.GormConnect()
-	if result := db.Table("admin_users").Where("username = ? AND deleted_at IS NULL", username).First(&adminUser); result.Error != nil {
+	if result := db.Table("admin_users").
+	  Where("username = ? AND deleted_at IS NULL", username).
+		First(&adminUser); result.Error != nil {
 		fmt.Println("wrong or missing username")
 		return adminUser, result.Error
 	}

@@ -13,7 +13,7 @@ type CategoryService struct {}
 
 func GetJsonAllCategories() []string {
 	fmt.Println()
-	Categories := repository.GetAllCategories()
+	Categories, _ := repository.GetAllCategories()
 	jsonCategories, _ := json.Marshal(Categories)
 	result := [] string{string(jsonCategories)}
   return result
