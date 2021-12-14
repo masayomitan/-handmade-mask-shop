@@ -60,6 +60,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 	api := r.Group("/admin/api/")
 		{
 			api.GET("/get-categories", API.GetCategories)
+			api.POST("/post-categories", API.PostCategories)
 		}
   return r
 }

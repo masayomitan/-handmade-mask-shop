@@ -8,6 +8,7 @@ module.exports = {
     context: path.join(__dirname, "src"),
     entry: { 
       js: "./js/app.js",
+
     },
     stats: 'errors-only',
     output: {
@@ -21,7 +22,8 @@ module.exports = {
               use: [{
                   loader: 'babel-loader',
                   options: {
-                      presets: ['@babel/preset-react', '@babel/preset-env']
+                      presets: ['@babel/preset-react', '@babel/preset-env'],
+                      plugins: ['@babel/plugin-transform-runtime'],
                   }
               }]
           },
