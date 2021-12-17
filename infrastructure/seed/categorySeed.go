@@ -11,12 +11,10 @@ import (
 
 
 func CategorySeed(db *gorm.DB) error {
-
 	var Category domain.Category
-
 	now := time.Now()
 
-	for i, v := range []string{"マスク", "ピアス", "リング"} {
+	for i, v := range []string{"マスク", "ピアス", "リング", "その他"} {
 		Category.ID += 1
 		Category.Name = v
 		Category.Orderby = (i + 1)

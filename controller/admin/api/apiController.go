@@ -8,6 +8,7 @@ import (
 	"handmade_mask_shop/domain"
 )
 
+var category domain.Category
 
 func GetCategories(c *gin.Context) {
   fmt.Println()
@@ -21,8 +22,6 @@ func GetCategories(c *gin.Context) {
 
 
 func PostCategories(c *gin.Context) {
-
-	var category domain.Category
   err :=  c.Bind(&category)
 	if err != nil {
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
@@ -37,9 +36,23 @@ func PostCategories(c *gin.Context) {
 		return
 	}
 	
-  _, err2 := repository.SaveCategory(&category)
-	if err2 != nil {
-		c.String(http.StatusBadRequest, "record already exists: "+err.Error())
+  _, err = repository.SaveCategory(&category)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+}
+
+func DeleteCategory(c *gin.Context) {
+	err := c.Bind(&category)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		return
+	}
+
+  err = repository.DeleteCategory(category.ID)
+	if err != nil {
+		fmt.Println(err)
 		return
 	}
 }

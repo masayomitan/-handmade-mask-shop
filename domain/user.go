@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	ID        		  uint             `gorm:"primaryKey"`
+	ID        		  uint      `gorm:"primaryKey"`
 	StatusID        uint
 
 	Password        string    `gorm:"password"`
@@ -38,6 +38,8 @@ type User struct {
 	
 	Reset_key      string
 	Reset_expire   string
+
+	Session_key    string
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`

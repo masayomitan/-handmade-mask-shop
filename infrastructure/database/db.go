@@ -14,7 +14,6 @@ type DB struct {
 }
 
 func GormConnect() *gorm.DB {
-
 	err := godotenv.Load((".env"))
     if err != nil {
 			panic ("envファイルの読み込みに失敗しました。")
@@ -35,9 +34,9 @@ func GormConnect() *gorm.DB {
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
-		if err != nil {
-			panic ("データベースとの通信に失敗しました。")
-		}
+	if err != nil {
+		panic ("データベースとの通信に失敗しました。")
+	}
 	
 	return db
 }

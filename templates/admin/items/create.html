@@ -1,6 +1,9 @@
 {{ define "admin/items/create.html" }}
-
+    {{ template "admin_default" . }}
+    
     <input type='hidden' id="category" value="{{ .categories }}">
+    <input type='hidden' name="csrf_token" value="{{ .CSRFField }}">
+
     <div id="item_create"></div>
     <script src="/src/js_bundle.js"></script>
 

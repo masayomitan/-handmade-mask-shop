@@ -8,8 +8,8 @@ import (
 
 type OrderItem struct {
 	ID           uint `gorm:"primaryKey"`
-	UserId       uint `gorm:"name"`
-  OrderId      uint `gorm:"order_id"`
+	UserID       uint `gorm:"name"`
+  OrderID      uint `gorm:"order_id"`
 	PaymentId    uint `gorm:"payment_id"`
 
   ItemId       uint   `gorm:"item_id"`

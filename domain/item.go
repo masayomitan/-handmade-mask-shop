@@ -13,7 +13,7 @@ type Item struct {
 	Detail        string  					`form:"detail"`
 	Normal_price  decimal.Decimal   `form:"normal_price"`
 	Special_price decimal.Decimal   `form:"special_price"`
-  Stock         int     				  `form:"stock"`
+  stock         int     				  `form:"stock"`
 	Add_point     int               `form:"add_point"`
 	Like          int   					  `form:"like"`
 	Display_flg   int   						`form:"display_flg" gorm:"NOT NULL"`

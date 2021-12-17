@@ -10,7 +10,7 @@ type Cart struct {
 	ID            uint 						`gorm:"primaryKey"`
 	UserID      	uint				   	`gorm:"user_id"`
 
-	PreOrderID    string  				`json:"pre_order_id"`
+	Pre_orderID    string  				`json:"pre_order_id"`
 	Total_price   decimal.Decimal `json:"total_price"`
 	Add_point     decimal.Decimal `json:"add_point"`
   Use_point     int          		`json:"use_point"`

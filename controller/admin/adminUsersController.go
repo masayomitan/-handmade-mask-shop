@@ -55,9 +55,8 @@ func AdminUpdate (c *gin.Context) {
 		return
 	}
 	hash := component.HashPassword(password)
-
 	file, _ := c.FormFile("image")
-  
+	
 	var imageID uint
 	if file != nil {
 		newFileName := service.RenameFile(file.Filename)

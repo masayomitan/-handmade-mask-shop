@@ -16,6 +16,8 @@ type CategoryRepository struct {}
 
 var category domain.Category
 var categories domain.Categories
+var now = time.Now()
+var db = database.GormConnect()
 
 func GetAllCategories() (domain.Categories, error) {
 	fmt.Println()
@@ -32,8 +34,7 @@ func GetAllCategories() (domain.Categories, error) {
 func SaveCategory(category *domain.Category) (*domain.Category, error) {
 
 	db := database.GormConnect()
-	// category.Name = name
-	now := time.Now()
+
   category.CreatedAt = now
   category.UpdatedAt = now
 	if result := db.Create(&category); result.Error != nil {
@@ -54,4 +55,20 @@ func CheckExistsByCategoryName(name string) (bool) {
 	}
 	//record not found
 	return false
+}
+
+
+func DeleteCategory(id uint) (error)  {
+
+	if result := db.Table("categories").
+	Where("id = ? AND deleted_at IS NULL", id).
+	First(&id); result.Error != nil {
+		return result.Error
+	}
+
+	//using "Update" single column 
+  db.Model(&category).
+	Where("id = ?", id).
+	Update("deleted_at", now)
+  return nil
 }

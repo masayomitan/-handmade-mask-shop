@@ -25,6 +25,7 @@ func LoginTop (c *gin.Context) {
 
 func Login (c *gin.Context)  {
 	session := sessions.Default(c)
+	
 	//オプション指定
 	session.Options(sessions.Options{
 		HttpOnly: true,
@@ -50,7 +51,6 @@ func Login (c *gin.Context)  {
 	}
 
 	hashedPassword := adminUser.Password
-
 	passwordErr := component.CheckPassword(hashedPassword, password)
   if (passwordErr != nil) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
@@ -66,7 +66,6 @@ func Login (c *gin.Context)  {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
 		return
 	}
-
 	c.Redirect(http.StatusFound, "/admin/items/")
 }
 

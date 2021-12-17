@@ -10,6 +10,7 @@ import (
 
 type ItemImageRepository struct {}
 
+
 func SaveItemImage(fileName string, id uint) {
 	fmt.Println()
   filePath := "/public/images/"
@@ -23,7 +24,6 @@ func SaveItemImage(fileName string, id uint) {
 
 	now := time.Now()
   data.CreatedAt = now
-  data.UpdatedAt = now
-  
+  data.UpdatedAt = now  
 	db.Create(&data)
 }
