@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
+import { data } from "autoprefixer";
 
 
 const Categories = () =>  {
   const input = useRef(null)
+  const [data, setData] = useState([])
   const [category, setCategory] = useState()
   const [categories, setCategories] = useState([])
   const [response, setResponse] = useState()
   // let csrfToken = document.getElementsByName("csrf_token")[0].value
-  //configとして情報を設置する
+
   axios.defaults.headers.common = {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
@@ -37,7 +39,7 @@ const Categories = () =>  {
     const categoryVailidate = () => {
       return (
         <>
-          <span className="">1~20にしてもらっていいかな？</span>
+          <span className="">1~20文字で入力してください</span>
         </>
       )
     }
@@ -59,6 +61,44 @@ const Categories = () =>  {
     })
   }
 
+  const updateCategory = (id, category) => {
+    console.log(id)
+    console.log(category)
+    // axios.post("/admin/api/post-categories", {
+    //   name: category
+    // })
+    // .then(response => {
+    //   const res = response.data
+    //   getCategories()
+    // })
+    // .catch(error => {
+    //   console.log(error)
+    // })
+  }
+
+  const deleteCategory = async (id) => {
+    console.log(id)
+    try {
+      const canDelete = await axios.get("/admin/api/delete-category/" + id)
+      if (canDelete.data === false) {
+        alert("このカテゴリーは他の商品と既に登録されています")
+      }
+      getCategories()
+    } 
+    catch (error) {
+      console.log(error)
+    }
+  }
+  
+  const handleChange = (e) => {
+    const t = e.target
+    const diff = new Array
+    // diff["id"] = t.id
+    diff["name"] = t.value
+    setData({...data, ...diff})
+    return
+  }
+
   return (
     <>
     <div className="select">
@@ -69,11 +109,16 @@ const Categories = () =>  {
               <label>
               <input
                 type="text"
+                id={v.ID}
                 defaultValue={v.name}
+                onChange={handleChange}
                 />
-                x
+                
                 </label>
+                <button className="" onClick={() => updateCategory(v.ID, data)}>登録</button>
+                <button className="" onClick={() => deleteCategory(v.ID)}>削除</button>
             </li>
+            
           )}
         </ul>
         <input
@@ -90,6 +135,8 @@ const Categories = () =>  {
   )
 }
 
+if (document.getElementById("get_categories")) {
   ReactDOM.render(
     <Categories />, document.getElementById("get_categories")
   );
+}

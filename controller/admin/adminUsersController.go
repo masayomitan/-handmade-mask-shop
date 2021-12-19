@@ -16,9 +16,6 @@ var AdminUser domain.AdminUser
 
 func AdminRegist(c *gin.Context) {
 	fmt.Println()
-
-	// db := database.GormConnect()
-	// db.Create(&AdminUser)
 }
 
 
@@ -52,11 +49,12 @@ func AdminUpdate (c *gin.Context) {
 	passwordConfirm := c.PostForm("password_confirm")
 	if (password != passwordConfirm) {
 		fmt.Println("password is not match")
-		return
+		c.Redirect(http.StatusFound, "/admin/admin-users/edit")
+    return 
 	}
 	hash := component.HashPassword(password)
 	file, _ := c.FormFile("image")
-	
+
 	var imageID uint
 	if file != nil {
 		newFileName := service.RenameFile(file.Filename)

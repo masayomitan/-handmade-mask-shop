@@ -3,8 +3,8 @@ package database
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
-	"handmade_mask_shop/domain"
-	// "handmade_mask_shop/infrastructure/seed"
+	// "handmade_mask_shop/domain"
+	"handmade_mask_shop/infrastructure/seed"
 
 )
 
@@ -23,9 +23,10 @@ func Migrations(db *gorm.DB) {
 	// db.AutoMigrate(&domain.ShopInformation{})
 	// db.AutoMigrate(&domain.User{})
 	// db.AutoMigrate(&domain.AdminUser{})
-	db.AutoMigrate(&domain.UserImage{})
+	// db.AutoMigrate(&domain.UserImage{})
 }
 
 func Seeds(db *gorm.DB) {
   // seed.CategorySeed(db)
+	seed.AdminUserSeed(db)
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
   "fmt"
+	"strconv"
 	"handmade_mask_shop/repository"
 	"handmade_mask_shop/domain"
 )
@@ -22,11 +23,13 @@ func GetCategories(c *gin.Context) {
 
 
 func PostCategories(c *gin.Context) {
-  err :=  c.Bind(&category)
+  err :=  c.ShouldBindJSON(&category)
 	if err != nil {
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
+
+	fmt.Println(category)
 
   //if record alredy found then not save at all
   exists := repository.CheckExistsByCategoryName(category.Name)
@@ -35,7 +38,6 @@ func PostCategories(c *gin.Context) {
 		c.String(http.StatusBadRequest, "record already exists: "+err.Error())
 		return
 	}
-	
   _, err = repository.SaveCategory(&category)
 	if err != nil {
 		fmt.Println(err)
@@ -44,15 +46,18 @@ func PostCategories(c *gin.Context) {
 }
 
 func DeleteCategory(c *gin.Context) {
-	err := c.Bind(&category)
+
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
+  _, err := repository.FindCategoryByID(id)
 	if err != nil {
-		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		fmt.Println(err)
 		return
 	}
 
-  err = repository.DeleteCategory(category.ID)
-	if err != nil {
-		fmt.Println(err)
+  err2 := repository.DeleteCategory(id)
+	if err2 != nil {
+		fmt.Println(err2)
 		return
 	}
 }

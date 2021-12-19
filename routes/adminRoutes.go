@@ -61,13 +61,13 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 		{
 			api.GET("/get-categories", API.GetCategories)
 			api.POST("/post-categories", API.PostCategories)
+			api.GET("/delete-category/:id", API.DeleteCategory)
 		}
   return r
 }
 
 func LoginCheckMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-
 			session := sessions.Default(c)
 			var setAdminUser domain.SetAdminUser
 			loginAdminUser, _ := dproxy.New(session.Get("adminUser")).String()
@@ -82,7 +82,7 @@ func LoginCheckMiddleware() gin.HandlerFunc {
 					c.Set("id", setAdminUser.ID)
 					c.Next()
 			}
-			log.Println("done")
+			log.Println("session is alive")
 	}
 }
 

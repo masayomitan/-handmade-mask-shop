@@ -14,7 +14,6 @@ const ItemCreate = () =>  {
   const [checked, setChecked] = useState(false);
   const [categories, setCategories] = useState(res[0]);
 
-
   const onSubmit = (data) => {
   console.log(data)
     var itemData = appendData(data);
@@ -169,10 +168,9 @@ const ItemCreate = () =>  {
   )
 }
 
-const ItemForm = document.getElementById("item_create");
-
-ReactDOM.render(
-  <ItemCreate />, document.getElementById("item_create")
-);
-
+if (document.getElementById("item_create")) {
+  ReactDOM.render(
+    <ItemCreate />, document.getElementById("item_create")
+  );
+}
 // export default ItemEdit
