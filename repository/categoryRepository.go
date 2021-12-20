@@ -6,7 +6,6 @@ import (
 	// "handmade_mask_shop/component"
 	// "github.com/shopspring/decimal"
 	"time"
-
 	_ "github.com/go-sql-driver/mysql"
 
 )
@@ -42,6 +41,17 @@ func SaveCategory(category *domain.Category) (*domain.Category, error) {
   category.CreatedAt = now
   category.UpdatedAt = now
 	if result := db.Create(&category); result.Error != nil {
+		return category, result.Error
+	}
+	return category, nil
+}
+
+
+func UpdateCategory(id uint, category *domain.Category) (*domain.Category, error) {
+	category.UpdatedAt = now
+	if result := db.Model(&categories).
+		Where("id = ?", id).
+		Update("name", category.Name); result.Error != nil {
 		return category, result.Error
 	}
 	return category, nil

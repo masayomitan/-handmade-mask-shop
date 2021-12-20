@@ -22,15 +22,12 @@ func GetCategories(c *gin.Context) {
 }
 
 
-func PostCategories(c *gin.Context) {
+func PostCategory(c *gin.Context) {
   err :=  c.ShouldBindJSON(&category)
 	if err != nil {
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
-
-	fmt.Println(category)
-
   //if record alredy found then not save at all
   exists := repository.CheckExistsByCategoryName(category.Name)
 	if exists == true {
@@ -43,10 +40,38 @@ func PostCategories(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
+	c.JSON(http.StatusOK, category)
 }
 
-func DeleteCategory(c *gin.Context) {
 
+func UpdateCategory(c *gin.Context) {
+	err :=  c.ShouldBindJSON(&category)
+	if err != nil {
+		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		return
+	}
+	//if record alredy found then not save at all
+	exists := repository.CheckExistsByCategoryName(category.Name)
+	if exists == true {
+		fmt.Println("record already exists")
+		c.String(http.StatusBadRequest, "record already exists: "+err.Error())
+		return
+	}
+	id := c.Param("id")
+	if id != "" {
+		u64, _ := strconv.ParseUint(id, 10, 32)
+		id := uint(u64)
+			_, err := repository.UpdateCategory(id, &category)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		return 
+	}
+}
+
+
+func DeleteCategory(c *gin.Context) {
 	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	id := uint(u64)
   _, err := repository.FindCategoryByID(id)
@@ -54,7 +79,6 @@ func DeleteCategory(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-
   err2 := repository.DeleteCategory(id)
 	if err2 != nil {
 		fmt.Println(err2)

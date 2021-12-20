@@ -48,7 +48,7 @@ const Categories = () =>  {
   const postCategory = () => {
     const name = input.current.value;
     console.log(name)
-    axios.post("/admin/api/post-categories", {
+    axios.post("/admin/api/post-category", {
       name: name
     })
     .then(response => {
@@ -62,18 +62,23 @@ const Categories = () =>  {
   }
 
   const updateCategory = (id, category) => {
-    console.log(id)
-    console.log(category)
-    // axios.post("/admin/api/post-categories", {
-    //   name: category
-    // })
-    // .then(response => {
-    //   const res = response.data
-    //   getCategories()
-    // })
-    // .catch(error => {
-    //   console.log(error)
-    // })
+    if (category.length === 0) {
+      return false
+    }
+    if (id != category.id) {
+      return false
+    }
+
+    axios.post("/admin/api/update-category/"+ id, {
+      name: category.name
+    })
+    .then(response => {
+      const res = response.data
+      getCategories()
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   const deleteCategory = async (id) => {
@@ -93,7 +98,7 @@ const Categories = () =>  {
   const handleChange = (e) => {
     const t = e.target
     const diff = new Array
-    // diff["id"] = t.id
+    diff["id"] = t.id
     diff["name"] = t.value
     setData({...data, ...diff})
     return

@@ -60,7 +60,8 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 	api := r.Group("/admin/api/")
 		{
 			api.GET("/get-categories", API.GetCategories)
-			api.POST("/post-categories", API.PostCategories)
+			api.POST("/post-category", API.PostCategory)
+			api.POST("/update-category/:id", API.UpdateCategory)
 			api.GET("/delete-category/:id", API.DeleteCategory)
 		}
   return r
