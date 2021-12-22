@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"fmt"
-	"log"
 	"github.com/gin-contrib/sessions"
 	"handmade_mask_shop/controller/admin"
   API "handmade_mask_shop/controller/admin/api"
@@ -53,12 +52,12 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 			item.GET("/", controller.Index)
 			item.GET("/detail/:id", controller.ItemDetail)
 			item.GET("/create", controller.Create)
-			item.POST("/store", controller.Store)
 			item.GET("/category", controller.Category)
 		}
 
 	api := r.Group("/admin/api/")
 		{
+			api.POST("/post-item", API.PostItem)
 			api.GET("/get-categories", API.GetCategories)
 			api.POST("/post-category", API.PostCategory)
 			api.POST("/update-category/:id", API.UpdateCategory)
@@ -66,6 +65,7 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 		}
   return r
 }
+
 
 func LoginCheckMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -83,9 +83,9 @@ func LoginCheckMiddleware() gin.HandlerFunc {
 					c.Set("id", setAdminUser.ID)
 					c.Next()
 			}
-			log.Println("session is alive")
 	}
 }
+
 
 func CSRF() gin.HandlerFunc {
 	csrfMd = csrf.Protect(
