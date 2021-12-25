@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	// "handmade_mask_shop/repository"
 	"time"
+	"gorm.io/gorm"
 )
 
 type AdminUser struct {
@@ -18,7 +19,7 @@ type AdminUser struct {
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
+	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
 	
 	UserImage UserImage
 }

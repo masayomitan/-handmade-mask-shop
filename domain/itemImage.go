@@ -2,8 +2,8 @@ package domain
 
 import (
 	_ "github.com/go-sql-driver/mysql"
-
 	"time"
+	"gorm.io/gorm"
 )
 
 type  ItemImage struct {
@@ -14,7 +14,7 @@ type  ItemImage struct {
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    time.Time  `form:"deleted_at" gorm:"default:'null'"`
+	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
   
 	//belongsTo
 	Item Item
