@@ -14,6 +14,7 @@ type User struct {
 	Password        string    `gorm:"password"`
 	PasswordConfirm string    `json:"password_confirm"`
 
+	Handlename      string
 	FamilyName      string
 	firstName       string
 	FamilyNameKana  string
@@ -49,6 +50,12 @@ type User struct {
 	Carts []Cart
 	Orders []Order
 	OrderItems []OrderItem
+}
+
+type SetUser struct {
+	ID       interface{}
+	Handlename interface{}
+	Email    interface{}
 }
 
 type Users []User

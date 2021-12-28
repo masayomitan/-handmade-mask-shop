@@ -4,12 +4,79 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
   "fmt"
+	"os"
 	"strconv"
 	"handmade_mask_shop/repository"
+	"handmade_mask_shop/service"
 	"handmade_mask_shop/domain"
 )
 
+
 var category domain.Category
+var item domain.Item
+var itemImage domain.ItemImage
+
+
+func GetItem(c *gin.Context) {
+	id := c.Param("id")
+	item, err := repository.GetItemByID(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
+	}
+	fmt.Println(item)
+}
+
+func PostItem(c *gin.Context) {
+
+	err := c.Bind(&item)
+  if err != nil {
+		fmt.Println(err)
+		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		return
+	}
+	fmt.Println(item.Detail)
+
+	itemId, err := repository.SaveItem(&item)
+	fmt.Println(itemId)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	c.JSON(http.StatusOK, item)
+}
+
+
+func PostItemImage (c * gin.Context) {
+	file, _ := c.FormFile("file")
+
+  if (file != nil) {
+		newFileName := service.RenameFile(file.Filename)
+		imageDir := "./public/img/"
+		filePath := imageDir + newFileName
+
+		if f, exist := os.Stat(imageDir); os.IsNotExist(exist) || 
+		!f.IsDir() {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+				"message": "error. could not find dir",
+			})
+		}
+
+		err2 := c.SaveUploadedFile(file, filePath)
+		if err2 != nil {
+			defer 
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+					"message": "Unable to save the file",
+			})
+			return
+		}
+		// service.ResizeFile(filePath)
+
+		p := repository.ItemImage{}
+		itemImage, _ := p.SaveItemImage(newFileName)
+		c.JSON(http.StatusOK, itemImage.ID)
+  }
+}
+
 
 func GetCategories(c *gin.Context) {
   fmt.Println()
@@ -61,11 +128,11 @@ func UpdateCategory(c *gin.Context) {
 	if id != "" {
 		u64, _ := strconv.ParseUint(id, 10, 32)
 		id := uint(u64)
-			_, err := repository.UpdateCategory(id, &category)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
+		_, err := repository.UpdateCategory(id, &category)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		return 
 	}
 }

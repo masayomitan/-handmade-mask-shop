@@ -8,16 +8,16 @@ import (
 
 type  ItemImage struct {
 	ID           uint    `gorm:"primaryKey"`
-	ItemID       uint    `gorm:"item_id"`
+	UserID       uint    `gorm:"user_id"`
 	File_name    string  `form:"file_name"`
 	File_path    string  `form:"file_path"`
+	Orderby      int     `form:"orderby"`
+
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
-  
-	//belongsTo
-	Item Item
+	DeletedAt    gorm.DeletedAt  `form:"deleted_at" gorm:"default:'null'"`
+
 }
 
 type ItemImages []Item
