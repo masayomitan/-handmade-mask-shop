@@ -2,26 +2,41 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
 
+import ItemImage from "./itemImage";
+import ItemImageModal from "./itemImageModal";
 const ItemCreate = () =>  {
 
-  let csrf = document.getElementsByName("csrf_token")[0].value
-  console.log(csrf)
+  // let csrf = document.getElementsByName("csrf_token")[0].value
+  // console.log(csrf)
   var category = document.getElementById("category").value;
-  var res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:""}];
+  var res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:''}];
 
   const [data, setData] = useState([])
   const [image, setImage] = useState("")
+  const [imageIds, setImageIds] = useState([])
   const [checked, setChecked] = useState(false);
   const [categories, setCategories] = useState(res[0]);
 
-  const onSubmit = (data) => {
-  console.log(data)
+
+  if (image !== '') {
+
+    imageIds.push(image.ID)
+    setData({...data, imageIds})
+    setImage('')
+  }
+
+  const postItem = (data) => {
+    if (data.length ===  0) {
+      return false
+    }
     var itemData = appendData(data);
-    axios.post( '/admin/items/store', itemData, {
+    console.log(data)
+
+    axios.post( '/admin/api/post-item', itemData, {
             headers: {
               'X-Requested-With': 'XMLHttpRequest',
               'content-type': 'multipart/form-data',
-              "X-CSRF-Token": csrf
+              // "X-CSRF-Token": csrf
             },
         }
     )
@@ -33,21 +48,26 @@ const ItemCreate = () =>  {
     });
   };
 
+
   const appendData = (data) => {
     const itemData = new FormData()
 
     itemData.append("name", data.name)
-    itemData.append("detail", data.detail)
-    itemData.append("normal_price", data.normal_price)
-    itemData.append("special_price", data.special_price)
-
-    data.stock = parseInt(data.stock)
-    itemData.append("stock", data.stock)
-    // itemData.append("add_point", data.add_point)
+    console.log(data)
     
-    if (data.display_flg === undefined) {
-        data.display_flg = 0;
-    }
+    if (data.detail === undefined) data.detail = '';
+    itemData.append("detail", data.detail)
+
+    if (data.normal_price === undefined) data.normal_price = 0;
+    itemData.append("normal_price", data.normal_price)
+
+    if (data.special_price === undefined) data.special_price = 0;
+    itemData.append("special_price", data.special_price)
+    
+    itemData.append("stock", parseInt(data.stock))
+    // itemData.append("add_point", data.add_point)
+
+    if (data.display_flg === undefined) data.display_flg = 0;
     itemData.append("display_flg", data.display_flg)
 
     if (isNaN(data.category_id)) {
@@ -56,39 +76,33 @@ const ItemCreate = () =>  {
       data.category_id = parseInt(data.category_id);
     }
     itemData.append("category_id", data.category_id)
-    itemData.append("image", fileInput.current.files[0])
+    itemData.append("item_image_id[]", data.imageIds)
     return itemData;
   }
 
+
   const handleChange = (e) => {
-      const t = e.target;
-      const name = t.name;
-      const value = t.type === "file" ? t.files[0] : t.value;
-      setData({...data, [name]: value})
+    const t = e.target;
+    const name = t.name;
+    const value = t.type === "file" ? t.files[0] : t.value;
+    setData({...data, [name]: value})
   }
-  
+
+
   const handleCheck = (e) => {
     const t = e.target;
     const name = t.name;
     const value = t.checked === true ? 1 : 0;
     setData({...data, [name]: value})
     return setChecked(value);
-  };
+  }
 
-  const fileInput = React.createRef()
 
   return (
       <>
-        <p>
-          <input 
-            type="file" 
-            multiple="multiple"
-            name="image" 
-            ref={fileInput}
-            onChange={handleChange}
-            accept="image/*"
-          />
-        </p>
+        <ItemImage
+          setImage={setImage}
+        />
         <p>
         <label>商品名</label>
           <input 
@@ -163,7 +177,7 @@ const ItemCreate = () =>  {
           }
           </select>
         </p>
-        <button type="submit" onClick={() => onSubmit(data)} >登録す</button>
+        <button type="submit" onClick={() => postItem(data)} >登録す</button>
       </>
   )
 }
