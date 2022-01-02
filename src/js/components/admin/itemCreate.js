@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import axios from 'axios';
 
 import ItemImage from "./itemImage";
-import ItemImageModal from "./itemImageModal";
+
+
 const ItemCreate = () =>  {
 
   // let csrf = document.getElementsByName("csrf_token")[0].value
@@ -14,14 +15,19 @@ const ItemCreate = () =>  {
   const [data, setData] = useState([])
   const [image, setImage] = useState("")
   const [imageIds, setImageIds] = useState([])
+  const [imagePath, setImagePath] = useState([])
   const [checked, setChecked] = useState(false);
   const [categories, setCategories] = useState(res[0]);
+  const [previews, setPreviews] = useState([])
+  const [postImage, setPostImage] = useState()
 
+  const [hasError, setError] = React.useState(false);
 
   if (image !== '') {
-
-    imageIds.push(image.ID)
+    imageIds[image.name] = image.ID
+    imagePath.push(image.file_path)
     setData({...data, imageIds})
+    setPreviews(imagePath)
     setImage('')
   }
 
@@ -45,9 +51,13 @@ const ItemCreate = () =>  {
     })
     .catch(err => {
         console.log(err);
+        setError(true);
     });
   };
 
+  if (hasError) {
+    return <p>Sorry, Sign up failed!</p>;
+  }
 
   const appendData = (data) => {
     const itemData = new FormData()
@@ -100,9 +110,18 @@ const ItemCreate = () =>  {
 
   return (
       <>
+        {previews.map((path, i) => (
+        <div key={i} className="w-20">
+          <p>
+            <img src={path} />
+          </p>
+        </div>
+        ))}
+
         <ItemImage
           setImage={setImage}
         />
+
         <p>
         <label>商品名</label>
           <input 
@@ -187,4 +206,3 @@ if (document.getElementById("item_create")) {
     <ItemCreate />, document.getElementById("item_create")
   );
 }
-// export default ItemEdit
