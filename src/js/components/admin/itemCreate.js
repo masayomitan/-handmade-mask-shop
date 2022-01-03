@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
 
 import ItemImage from "./itemImage";
-
+import ItemValidation from "../../lib/itemValidation";
 
 const ItemCreate = () =>  {
 
@@ -11,84 +11,47 @@ const ItemCreate = () =>  {
   // console.log(csrf)
   var category = document.getElementById("category").value;
   var res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:''}];
+  
+  const numberRegExp = /^[0-9]+$/
 
   const [data, setData] = useState([])
   const [image, setImage] = useState("")
-  const [imageIds, setImageIds] = useState([])
+  const [item_image_id, setImageIds] = useState([])
   const [imagePath, setImagePath] = useState([])
   const [checked, setChecked] = useState(false);
   const [categories, setCategories] = useState(res[0]);
   const [previews, setPreviews] = useState([])
-  const [postImage, setPostImage] = useState()
 
-  const [hasError, setError] = React.useState(false);
+  const [error, setError] = useState({'valid': {'key': [], 'message': []}});
+  
+  axios.defaults.headers.common = {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    // "X-CSRF-Token": csrfToken
+  }
 
   if (image !== '') {
-    imageIds[image.name] = image.ID
+    item_image_id[image.name] = {'id': image.ID}
     imagePath.push(image.file_path)
-    setData({...data, imageIds})
+    setData({...data, item_image_id})
     setPreviews(imagePath)
     setImage('')
   }
 
   const postItem = (data) => {
-    if (data.length ===  0) {
-      return false
-    }
-    var itemData = appendData(data);
     console.log(data)
+    
+    const [valid, hasError] = ItemValidation(data)
+    if (hasError === true) return setError({...error, valid})
 
-    axios.post( '/admin/api/post-item', itemData, {
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              'content-type': 'multipart/form-data',
-              // "X-CSRF-Token": csrf
-            },
-        }
-    )
+    axios.post('/admin/api/post-item', data)
     .then(response => {
         console.log(response.data);
     })
     .catch(err => {
         console.log(err);
-        setError(true);
     });
   };
-
-  if (hasError) {
-    return <p>Sorry, Sign up failed!</p>;
-  }
-
-  const appendData = (data) => {
-    const itemData = new FormData()
-
-    itemData.append("name", data.name)
-    console.log(data)
-    
-    if (data.detail === undefined) data.detail = '';
-    itemData.append("detail", data.detail)
-
-    if (data.normal_price === undefined) data.normal_price = 0;
-    itemData.append("normal_price", data.normal_price)
-
-    if (data.special_price === undefined) data.special_price = 0;
-    itemData.append("special_price", data.special_price)
-    
-    itemData.append("stock", parseInt(data.stock))
-    // itemData.append("add_point", data.add_point)
-
-    if (data.display_flg === undefined) data.display_flg = 0;
-    itemData.append("display_flg", data.display_flg)
-
-    if (isNaN(data.category_id)) {
-      data.category_id = null;
-    } else {
-      data.category_id = parseInt(data.category_id);
-    }
-    itemData.append("category_id", data.category_id)
-    itemData.append("item_image_id[]", data.imageIds)
-    return itemData;
-  }
 
 
   const handleChange = (e) => {
@@ -122,8 +85,11 @@ const ItemCreate = () =>  {
           setImage={setImage}
         />
 
+        <p className="text-red-500">
+          {error.valid.key.name === true && (error.valid.message.name)}
+        </p>
         <p>
-        <label>商品名</label>
+          <label>商品名</label>
           <input 
             type="text"
             name="name"
@@ -132,8 +98,12 @@ const ItemCreate = () =>  {
             onChange={handleChange}
           />
         </p>
+
+        <p className="text-red-500">
+          {error.valid.key.detail === true && (error.valid.message.detail)}
+        </p>
         <p>
-        <label>詳細</label>
+          <label>詳細</label>
           <input 
             type="textarea"
             name="detail"
@@ -142,6 +112,7 @@ const ItemCreate = () =>  {
             onChange={handleChange}
           />
         </p>
+        
         <p>
           <label>通常価格</label>
           <input 
@@ -182,6 +153,10 @@ const ItemCreate = () =>  {
             {...checked ? true : false}
             onChange={handleCheck}
           />
+        </p>
+
+        <p className="text-red-500">
+          {error.valid.key.category === true && (error.valid.message.category)}
         </p>
         <p>
           <label>カテゴリー</label>

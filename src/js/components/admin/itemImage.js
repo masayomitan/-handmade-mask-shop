@@ -157,8 +157,15 @@ const ItemImage = (props) => {
                           </ label>
                         )
                       })
-                      : 
-                      <span>画像がまだありません</span>
+                      :
+                      <>
+                        <span>画像がまだありません</span>
+                        <button
+                          onClick={() => setImageData(null, false)}
+                        >
+                          戻る
+                        </button>
+                      </>
                     }
                   </div>
                 </div>
