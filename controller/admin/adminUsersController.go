@@ -14,12 +14,12 @@ import (
 
 var AdminUser domain.AdminUser
 
-func AdminRegist(c *gin.Context) {
+func AdminRegist (c *gin.Context) {
 	fmt.Println()
 }
 
 
-func AdminEdit(c *gin.Context) {
+func AdminEdit (c *gin.Context) {
 	id := sessions.Default(c).Get("id").(uint)
 
 	adminUser, err := repository.GetAdminUserByID(id)
