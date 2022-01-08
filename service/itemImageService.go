@@ -7,10 +7,9 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"golang.org/x/image/draw"
-
+	"handmade_mask_shop/repository"
 	"os"
 	"path/filepath"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
@@ -82,4 +81,11 @@ func ResizeFile(filePath string) {
 	// default:
 	// 		fmt.Fprintln(os.Stderr, "format error")
 	// }
+}
+
+func SetItemImageIds (itemId uint, imageIds []string) {
+
+	for _, v := range imageIds {
+		repository.SaveItemImageIds(itemId, v)
+	}
 }
