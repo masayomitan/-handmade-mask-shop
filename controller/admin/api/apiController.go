@@ -55,10 +55,13 @@ func PostItem(c *gin.Context) {
 		}
   }
 	if len(imageIds) > 0 {
-			service.SetItemImageIds(item.ID, imageIds)
+		err3 := service.SetItemImageIds(item.ID, imageIds)
+		if err3 != nil {
+			fmt.Println(err3)
+			c.String(http.StatusBadRequest, "Request is failed: "+err3.Error())
+			return
+		}
 	}
-
-
 	c.JSON(http.StatusOK, item)
 }
 

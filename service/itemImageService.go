@@ -83,9 +83,13 @@ func ResizeFile(filePath string) {
 	// }
 }
 
-func SetItemImageIds (itemId uint, imageIds []string) {
-
+func SetItemImageIds (itemId uint, imageIds []string) (error){
 	for _, v := range imageIds {
-		repository.SaveItemImageIds(itemId, v)
+		p := repository.ItemsItemImage{}
+		_, err := p.SaveItemImageIds(itemId, v)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }

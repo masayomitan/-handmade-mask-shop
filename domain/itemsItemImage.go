@@ -14,5 +14,4 @@ type ItemsItemImage struct {
 	CreatedAt    time.Time  				`form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  				`form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
-
 }
