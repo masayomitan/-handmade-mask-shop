@@ -66,6 +66,10 @@ func PostItem(c *gin.Context) {
 }
 
 
+func EditItem(c * gin.Context) {
+	fmt.Println(c.PostForm("id"))
+}
+
 func GetItemImages (c * gin.Context) {
 	itemImages, err := repository.GetAllItemImages()
 	if err != nil {

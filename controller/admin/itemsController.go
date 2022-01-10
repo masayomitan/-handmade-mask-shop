@@ -1,20 +1,21 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"handmade_mask_shop/domain"
+	"fmt"
 	"handmade_mask_shop/repository"
 	"handmade_mask_shop/service"
-  "fmt"
+
+	"github.com/gin-gonic/gin"
+
 	// "github.com/gin-contrib/sessions"
 	"net/http"
-	"os"
+	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/csrf"
 )
 
 
-func Index(c *gin.Context) {
+func ItemIndex(c *gin.Context) {
 	data := repository.GetAllItems()
 	c.HTML(http.StatusOK, "admin/items/index.html", gin.H{
 		"data" : data,
@@ -22,11 +23,9 @@ func Index(c *gin.Context) {
 }
 
 
-func Create(c *gin.Context) {
+func ItemCreate(c *gin.Context) {
 	csrf := csrf.Token
 	// session := sessions.Default(c)
-	fmt.Println()
-
   categories := service.GetJsonAllCategories()
   c.HTML(http.StatusOK, "admin/items/create.html", gin.H{
 		"categories": categories,
@@ -35,51 +34,41 @@ func Create(c *gin.Context) {
 }
 
 
-func Store(c *gin.Context) {
-	var item domain.Item
-	err := c.Bind(&item)
-  if err != nil {
-		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
-		return
+func ItemEdit(c *gin.Context) {
+	csrf := csrf.Token
+	id := c.Param("id")
+	item, err := repository.GetItemByID(id)
+	jsonItem, _ := json.Marshal(item)
+	jsonItemArr := []string{string(jsonItem)}
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
 	}
-
-	itemId := repository.SaveItem(&item)
-	file, _ := c.FormFile("image")
-	newFileName := service.RenameFile(file.Filename)
-	imageDir := "./public/images/" 
-	filePath := imageDir + newFileName
-
-	if f, exist := os.Stat(imageDir); os.IsNotExist(exist) || 
-	!f.IsDir() {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-      "message": "error. could not find dir",
-    })
-  }
-
-	er := c.SaveUploadedFile(file, filePath)
-	if er != nil {
-		defer 
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"message": "Unable to save the file",
-		})
-		return
-  }
-  
-	// service.ResizeFile(filePath)
-	repository.SaveItemImage(newFileName, itemId)
+	categories := service.GetJsonAllCategories()
+  c.HTML(http.StatusOK, "admin/items/edit.html", gin.H{
+		"item" : jsonItemArr,
+		"categories": categories,
+		"CSRFField" :  csrf,
+	})
 }
 
 
 func ItemDetail(c *gin.Context) {
 	id := c.Param("id")
-	item := repository.GetItemByID(id)
+	item, err := repository.GetItemByID(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
+	}
 	c.HTML(http.StatusOK, "admin/items/detail.html", gin.H{
 		"item" : item,
 	})
 }
 
 
-func Category(c *gin.Context) {
+func Complete(c *gin.Context) {
+	c.HTML(http.StatusOK, "admin/items/complete.html", gin.H{})
+}
 
+
+func Category(c *gin.Context) {
 	c.HTML(http.StatusOK, "admin/items/category.html", gin.H{})
 }
