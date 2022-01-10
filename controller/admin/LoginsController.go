@@ -30,7 +30,7 @@ func Login (c *gin.Context)  {
 	session.Options(sessions.Options{
 		HttpOnly: true,
 		Secure: true, 
-		MaxAge: 86400*7,
+		MaxAge: 86400*14,
 		Path: "/",
 	})
 
@@ -42,8 +42,8 @@ func Login (c *gin.Context)  {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can not be empty"})
 		return
 	}
+
   request := map[string]string{"username" : username, "password" : password}
-	
 	adminUser, err := repository.GetLoginAdminUserByRequest(request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
