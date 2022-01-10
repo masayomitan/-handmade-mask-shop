@@ -5,6 +5,7 @@ import (
 	"github.com/shopspring/decimal"
 	"time"
 	"gorm.io/gorm"
+	// "encoding/json"
 )
 
 type Item struct {
@@ -23,14 +24,25 @@ type Item struct {
 
 	CreatedAt    time.Time  				`form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  				`form:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
+	DeletedAt    gorm.DeletedAt 		`json:"deleted_at" gorm:"default:'null'"`
 
 	Category Category
 
-	ItemImages []ItemImage `gorm:"many2many:items_item_images;"`
+	ItemImages []ItemImage `gorm:"many2many:items_item_images; association_autoupdate:false"`
 	CartItems  []CartItem
 	OrderItems []OrderItem
 
 }
 
 type Items []Item
+
+// type FakeItem Item
+// func (i Item) MarshalJSON() ([]byte, error) {
+// 	return json.Marshal(struct {
+// 			FakeItem
+// 			AddData map[string]int `json:"add_data"`
+// 	}{
+// 			FakeItem: FakeItem(i),
+// 			AddData: map[string]int{},
+// 	})
+// }
