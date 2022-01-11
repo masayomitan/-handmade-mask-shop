@@ -52,7 +52,7 @@ func (i *ItemImage) SaveItemImage(fileName string) (*ItemImage, error) {
 }
 
 
-func (i * ItemsItemImage)SaveItemImageIds(itemId uint, imageId string) (*ItemsItemImage, error) {
+func (i * ItemsItemImage) SaveItemImageIds(itemId uint, imageId string) (*ItemsItemImage, error) {
 	db := database.GormConnect()
 	u64, _ := strconv.ParseUint(imageId, 10, 64)
 	u := uint(u64)

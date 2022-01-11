@@ -13,8 +13,12 @@ import (
 )
 
 
+func UserIndex (c *gin.Context) {
+	c.HTML(http.StatusOK, "admin/users/index.html", gin.H{
+	})
+}
 func UserRegist(c *gin.Context) {
 	fmt.Println()
-  c.HTML(http.StatusOK, "admin/user/regist.html", gin.H{
+  c.HTML(http.StatusOK, "admin/users/regist.html", gin.H{
 	})
 }
