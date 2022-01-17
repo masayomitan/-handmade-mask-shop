@@ -5,12 +5,11 @@ import (
 	"github.com/shopspring/decimal"
 	"time"
 	"gorm.io/gorm"
-	// "encoding/json"
 )
 
 type Item struct {
 	ID            uint    					`gorm:"primaryKey"`
-	UserID        uint              `gorm:"user_id"`
+	AdminUserID   uint              `gorm:"admin_user_id"`
 	Item_code     int               `form:"item_code"`
 	Name          string  					`form:"name"`
 	Detail        string  					`form:"detail"`
@@ -35,14 +34,3 @@ type Item struct {
 }
 
 type Items []Item
-
-// type FakeItem Item
-// func (i Item) MarshalJSON() ([]byte, error) {
-// 	return json.Marshal(struct {
-// 			FakeItem
-// 			AddData map[string]int `json:"add_data"`
-// 	}{
-// 			FakeItem: FakeItem(i),
-// 			AddData: map[string]int{},
-// 	})
-// }
