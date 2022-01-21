@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
 
@@ -6,45 +6,56 @@ import ItemImage from "./itemImage";
 import ItemValidation from "../../lib/itemValidation";
 
 const ItemCreate = () =>  {
-
+  axios.defaults.headers.common = {
+    'content-Type': 'multipart/form-data',
+    'X-Requested-With': 'XMLHttpRequest',
+    // "X-CSRF-Token": csrfToken
+  }
   // let csrf = document.getElementsByName("csrf_token")[0].value
   // console.log(csrf)
   var category = document.getElementById("category").value;
   var res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:''}];
-  
+
   const numberRegExp = /^[0-9]+$/
 
   const [data, setData] = useState([])
+
+  const itemData = document.getElementById("item_edit")
+  const [editData, setEditData] = useState((itemData !== null) ? JSON.parse(itemData.value) : null)
+  // console.log(editData[0].Category.ID)
+
   const [image, setImage] = useState("")
-  const [item_image_id, setImageIds] = useState([])
+  const [imageIds, setImageIds] = useState([])
   const [imagePath, setImagePath] = useState([])
+  
   const [checked, setChecked] = useState(false);
   const [categories, setCategories] = useState(res[0]);
   const [previews, setPreviews] = useState([])
 
-  const [error, setError] = useState({'valid': {'key': [], 'message': []}});
+
+  const match = location.href.match(/[0-9]+/)
+  const id = (match !== null) ? match[0] : null
+  const endPoint = (id !== null)  ? "/admin/api/update-item/" + id : "/admin/api/post-item"
   
-  axios.defaults.headers.common = {
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-    // "X-CSRF-Token": csrfToken
-  }
+  const [error, setError] = useState({'valid': {'key': [], 'message': []}});
+
 
   if (image !== '') {
-    item_image_id[image.name] = {'id': image.ID}
+    imageIds[image.name] = image.ID
     imagePath.push(image.file_path)
-    setData({...data, item_image_id})
+    setData({...data, imageIds})
     setPreviews(imagePath)
     setImage('')
   }
 
   const postItem = (data) => {
-    console.log(data)
     
     const [valid, hasError] = ItemValidation(data)
     if (hasError === true) return setError({...error, valid})
+    
+    const setParams = appendData(data)
 
-    axios.post('/admin/api/post-item', data)
+    axios.post(endPoint, setParams)
     .then(response => {
         console.log(response.data);
     })
@@ -52,6 +63,36 @@ const ItemCreate = () =>  {
         console.log(err);
     });
   };
+
+  const appendData = (data) => {
+    const param = new FormData();
+    param.append("name", data.name)
+    param.append("detail", data.detail)
+    if (data.normal_price === undefined) data.normal_price = 0;
+    param.append("normal_price", data.normal_price)
+    if (data.special_price === undefined) data.special_price = 0;
+    param.append("special_price", data.special_price)
+    
+    
+    if (data.category_id !== undefined) {
+      if (isNaN(data.category_id)) {
+        data.category_id = null;
+      } else {
+        data.category_id = parseInt(data.category_id);
+      }
+    }
+    param.append("category_id", data.category_id)
+
+    if (data.imageIds !== undefined) {
+      console.log(data.imageIds)
+      let num = Object.keys(data.imageIds).length
+      for (let i = 0; i < num; i++) {
+        let sum = (i+1)
+        param.append("imageId" + sum, data.imageIds["imageId" + sum])
+      }
+    }
+    return param
+  }
 
 
   const handleChange = (e) => {
@@ -93,7 +134,7 @@ const ItemCreate = () =>  {
           <input 
             type="text"
             name="name"
-            // value={setData.name}
+            defaultValue={(editData !== null) ? editData[0].Name: ''}
             required="required"
             onChange={handleChange}
           />
@@ -102,12 +143,13 @@ const ItemCreate = () =>  {
         <p className="text-red-500">
           {error.valid.key.detail === true && (error.valid.message.detail)}
         </p>
+
         <p>
           <label>詳細</label>
           <input 
             type="textarea"
             name="detail"
-            // value={data.detail}
+            defaultValue={(editData !== null) ? editData[0].Detail : ''}
             required="required"
             onChange={handleChange}
           />
@@ -163,10 +205,13 @@ const ItemCreate = () =>  {
           <select
               name="category_id"
               onChange={handleChange}
+              defaultValue={(editData !== null) && editData[0].Category.ID}
           >
             <option value="" hidden>選択してください</option>
             {categories.map((v, i) =>
-                <option  value={v.ID} key={i}>{v.name}</option>
+                <option
+                    value={v.ID} key={i}>{v.name}
+                </option>
               )
           }
           </select>

@@ -15,6 +15,6 @@ func GetJsonAllCategories() []string {
 	fmt.Println()
 	Categories, _ := repository.GetAllCategories()
 	jsonCategories, _ := json.Marshal(Categories)
-	result := [] string{string(jsonCategories)}
+	result := []string{string(jsonCategories)}
   return result
 }

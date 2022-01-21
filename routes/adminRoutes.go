@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/gin-contrib/sessions"
-	"handmade_mask_shop/controller/admin"
+	admin "handmade_mask_shop/controller/admin"
   API "handmade_mask_shop/controller/admin/api"
 	"handmade_mask_shop/domain"
 	"github.com/koron/go-dproxy"
@@ -23,41 +23,46 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 		c.JSON(404, gin.H{"message": "Page not found"})
   })
   
-	r.GET("/admin/dashboards", controller.Dashboard)
+	r.GET("/admin/dashboards", admin.Dashboard)
 	login := r.Group("/admin/")
 		{
-			login.GET("/", controller.LoginTop)
-			login.POST("/login", controller.Login)
-			login.GET("/logout", controller.Logout)
+			login.GET("/", admin.LoginTop)
+			login.POST("/login", admin.Login)
+			login.GET("/logout", admin.Logout)
 		}
 
 	user := r.Group("/admin/users/")
 		{
-			user.GET("/regist", controller.UserRegist)
-			// user.GET("/detail/:id", controller.UserDetail)
+			user.GET("/", admin.UserIndex)
+			user.GET("/regist", admin.UserRegist)
 		}
 		
 	//管理ユーザーグループ
-	admin := r.Group("/admin/admin-users/", LoginCheckMiddleware())
+	adminUser := r.Group("/admin/admin-users/", LoginCheckMiddleware())
 		{	
-			admin.GET("/regist", controller.AdminRegist)
-			admin.GET("/edit", controller.AdminEdit)
-			admin.POST("/update", controller.AdminUpdate)
+			adminUser.GET("/regist", admin.AdminRegist)
+			adminUser.GET("/edit", admin.AdminEdit)
+			adminUser.POST("/update", admin.AdminUpdate)
 		}
 
 	//商品グループ
 	item := r.Group("/admin/items/", LoginCheckMiddleware())
 		{	
 			item.Use(CSRF())
-			item.GET("/", controller.Index)
-			item.GET("/detail/:id", controller.ItemDetail)
-			item.GET("/create", controller.Create)
-			item.GET("/category", controller.Category)
+			item.GET("/", admin.ItemIndex)
+			item.GET("/detail/:id", admin.ItemDetail)
+			item.GET("/create", admin.ItemCreate)
+			item.GET("/edit/:id", admin.ItemEdit)
+			item.GET("/category", admin.Category)
 		}
 
 	api := r.Group("/admin/api/")
 		{
 			api.POST("/post-item", API.PostItem)
+			api.POST("/update-item/:id", API.UpdateItem)
+			api.GET("/get-item-images", API.GetItemImages)
+			api.POST("/post-item-image", API.PostItemImage)
+
 			api.GET("/get-categories", API.GetCategories)
 			api.POST("/post-category", API.PostCategory)
 			api.POST("/update-category/:id", API.UpdateCategory)

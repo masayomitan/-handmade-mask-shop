@@ -13,14 +13,14 @@ import (
 )
 
 
-func GetUserRoutes(r *gin.Engine) *gin.Engine {
+func GetRoutes(r *gin.Engine) *gin.Engine {
 	fmt.Println()
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
   })
 
-	login := r.Group("/admin/")
+	login := r.Group("/")
 		{
 			login.GET("/", front.LoginTop)
 			login.POST("/login", front.Login)

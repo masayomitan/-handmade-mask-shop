@@ -123,7 +123,7 @@ const ItemImage = (props) => {
           <input 
             type="file" 
             multiple="multiple"
-            name={"image" + num}
+            name={"imageId" + num}
             ref={fileInput}
             onChange={(e) => onFileChange(e)}
             accept="image/*"
@@ -131,7 +131,7 @@ const ItemImage = (props) => {
 
           <button
             onClick={() => toggleModal(true)}
-            name={"image" + num}
+            name={"imageId" + num}
           >
           フォルダから選択
           </button>
@@ -150,7 +150,7 @@ const ItemImage = (props) => {
                         return (
                           <label key={i}>
                             <img
-                              name={"image" + num}
+                              name={"imageId" + num}
                               className={(v.ID === selectedId) ? "opacity-50" : ""}  
                               src={v.file_path} 
                               onClick={(e) => confirmSelect(v, e)} />
