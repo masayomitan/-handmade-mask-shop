@@ -1,0 +1,19 @@
+{{ define "admin/items/edit.html" }}
+    {{ template "admin_default" . }}
+    {{ template "header" . }}
+    
+
+    <div class="flex">
+        <div class="">
+            {{ template "sidebar" . }}
+        </div>
+
+        <input type='hidden' id="category" value="{{ .categories }}">
+        <input type='hidden' id="item_edit" value="{{ .item }}">
+        <input type='hidden' name="csrf_token" value="{{ .CSRFField }}">
+
+        <div id="item_create"></div>
+        <script src="/src/js_bundle.js"></script>
+        
+    </div>
+{{ end }}

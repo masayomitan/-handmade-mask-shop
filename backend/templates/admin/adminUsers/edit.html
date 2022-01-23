@@ -1,0 +1,32 @@
+{{define "admin/adminUsers/edit.html"}}
+
+  <form action="/admin/admin-users/update" method="post" enctype="multipart/form-data">
+    {{with .adminUser}}
+      <div class="form-example">
+        <label>名前: </label>
+        <input type="text" name="username" value="{{.Username}}" required>
+      </div>
+
+      <div class="form-example">
+        <label>パスワード: </label>
+        <input type="password" name="password" required>
+      </div>
+
+      <div class="form-example">
+        <label>パスワード確認: </label>
+        <input type="password" name="password_confirm" required>
+      </div>
+
+      <hidden name="image" value="{{.UserImage.File_path}}">
+      <div class="form-example">
+        <input type="file" name="image">
+      </div>
+
+      <div class="form-example">
+        <input type="submit" value="保存">
+      </div>
+      <img src="{{.UserImage.File_path}}">
+    {{end}}
+  </form>
+
+  {{end}}

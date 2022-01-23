@@ -1,0 +1,14 @@
+{{ define "admin/items/category.html" }}
+    {{ template "admin_default" . }}
+    {{ template "header" . }}
+
+    <div class="flex">
+        <div class="">
+            {{ template "sidebar" . }}
+        </div>
+
+        <div id="get_categories"></div>
+        <script src="/src/js_bundle.js"></script>
+    </div>
+    
+{{ end }}
