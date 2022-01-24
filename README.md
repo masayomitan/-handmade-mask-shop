@@ -1,3 +1,5 @@
 # handmade-shop
-front next.js
+
+frontend next.js
+
 backend golang
