@@ -32,6 +32,7 @@ func GetItemByID(id string) (*domain.Item, error) {
 	return &item, nil
 } 
 
+
 func GetAllItems() (*domain.Items) {
 	var items domain.Items
   db := database.GormConnect()

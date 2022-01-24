@@ -2,7 +2,6 @@ package controller
 
 import (
 	// "fmt"
-	"fmt"
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/repository"
 
@@ -31,12 +30,10 @@ func GetItem(c *gin.Context) {
 
 
 func GetDisplayItems(c *gin.Context) {
-
   items, err := repository.GetDisplayItems()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "items not found"})
 	}
-	fmt.Println(items)
 	c.JSON(http.StatusOK, items)
 }
 
