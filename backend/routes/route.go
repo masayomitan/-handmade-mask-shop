@@ -30,6 +30,7 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 	api := r.Group("/front/api/")
 		{
 			api.GET("/get-display-items", API.GetDisplayItems)
+			api.GET("/get-display-item/:id", API.GetDisplayItem)
 			api.GET("/get-item-images", API.GetItemImages)
 
 			api.GET("/get-categories", API.GetCategories)

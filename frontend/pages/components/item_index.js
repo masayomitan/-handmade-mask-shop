@@ -8,6 +8,7 @@ const ItemIndex = () => {
 
   const [items, setItems] = useState([])
   const [useErrorHandler, setErrorHandler] = useState(null)
+
   axios.defaults.headers.common = {
     'Content-Type': 'application/json',
     // 'X-Requested-With': 'XMLHttpRequest',

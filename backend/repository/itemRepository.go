@@ -3,19 +3,21 @@ package repository
 import (
 	"fmt"
 	"time"
+	// "strconv"
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/infrastructure/database"
 	_ "github.com/go-sql-driver/mysql"
 
 )
 
-type ItemRepository struct {}
+// type ItemRepository struct {}
+
 type Item struct {
 	*domain.Item
 }
 
 type Items struct {
-	domain.Items
+	*domain.Items
 }
 
 
@@ -41,6 +43,19 @@ func GetAllItems() (*domain.Items) {
 	Preload("ItemImages").Find(&items)
 	return &items
 }
+
+
+func (i *Item) GetDisplayItem (id string) (*Item, error) {
+	db := database.GormConnect()
+	if result := db.Where("ID = ? AND items.display_flg = ?", id, 1).
+		Preload("ItemImages").
+		Preload("Category").
+		First(&i); result.Error != nil {
+			fmt.Println(result.Error)
+			return i, result.Error
+	}
+	return i, nil
+} 
 
 
 func GetDisplayItems() (*domain.Items, error) {

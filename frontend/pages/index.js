@@ -8,7 +8,6 @@ import ItemIndex from './components/item_index.js';
 const Top = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
 
-  const [items, setItems] = useState([])
   const [categories, setCategories] = useState([])
 
   axios.defaults.baseURL = apiBaseUrl
@@ -29,22 +28,9 @@ const Top = () => {
       }
     }
   }
-
-  const getItems = async () => {
-    try {
-    const result = await axios.get("front/api/get-display-items");
-    setItems(result.data)
-    } catch (e) {
-      if (axios.isAxiosError(e) && e.response && e.response.status === 400) {
-        console.log('400 Error!!')
-      }
-      console.log(e)
-    }
-  }
   
   useEffect(()  => {
     getCategories();
-    getItems();
   }, [])
 
   return (
