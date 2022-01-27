@@ -5,8 +5,9 @@ import (
 		"github.com/gin-contrib/cors"
 		_ "github.com/go-sql-driver/mysql"
 		"fmt"
-		// "os"
-		"handmade_mask_shop/infrastructure/database"
+		"github.com/joho/godotenv"
+		"os"
+		// "handmade_mask_shop/infrastructure/database"
 		"handmade_mask_shop/routes"
 		"github.com/gin-contrib/sessions"
 		"github.com/gin-contrib/sessions/cookie"
@@ -23,8 +24,8 @@ func main() {
 	r = routes.GetAdminRoutes(r)
 	r = routes.GetRoutes(r)
 
-	db := database.GormConnect()
-	database.Migrations(db)
+	// db := database.GormConnect()
+	// database.Migrations(db)
 	// database.Seeds(db)
 
 		files := []string{ 
@@ -41,17 +42,23 @@ func main() {
 		
 		r.Static("/src", "./src")
 		r.Static("/public", "./public")
-		
+
 	r.Run(":80")
 };
 
 func CORS(r *gin.Engine) (*gin.Engine) {
-	r.Use(cors.New(cors.Config{
+	err := godotenv.Load((".env"))
+	if err != nil {
+		panic ("envファイルの読み込みに失敗しました。")
+	}
+
+	httpUrl :=  os.Getenv("HTTP_URL")
+	r.Use( cors.New(cors.Config{
     // アクセスを許可したいアクセス元
-    AllowOrigins:  []string{"http://localhost:3001"},
-    // アクセスを許可したいHTTPメソッド(以下の例だとPUTやDELETEはアクセスできません)
+    AllowOrigins:  []string{httpUrl},
+    // アクセスを許可したいHTTPメソッド
     AllowMethods: []string{
-        "POST","GET", "OPTIONS",
+        "POST","GET", "PUT", "OPTIONS",
     },
 		AllowCredentials: true,
     // 許可したいHTTPリクエストヘッダ

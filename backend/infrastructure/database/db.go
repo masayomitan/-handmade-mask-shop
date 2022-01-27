@@ -33,8 +33,8 @@ func GormConnect() *gorm.DB {
 	}
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
-	if err != nil {
+	db, err2 := gorm.Open(mysql.Open(CONNECT), &gorm.Config{})
+	if err2 != nil {
 		panic ("データベースとの通信に失敗しました。")
 	}
 	
