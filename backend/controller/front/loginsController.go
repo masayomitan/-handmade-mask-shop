@@ -15,7 +15,6 @@ import (
 
 func LoginTop (c *gin.Context) {
 	fmt.Println()
-
 	c.HTML(http.StatusOK, "front/login/index.html", gin.H{})
 }
 

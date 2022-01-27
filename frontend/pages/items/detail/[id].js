@@ -21,8 +21,9 @@ const ItemDetail = () => {
     // "X-CSRF-Token": csrfToken
   }
   
-
+  
   const getDisplayItem = useCallback(async() => {
+
     if (id != undefined) {
       try {
         const result = await axios.get("/front/api/get-display-item/" + id);

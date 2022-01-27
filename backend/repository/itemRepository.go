@@ -45,7 +45,7 @@ func GetAllItems() (*domain.Items) {
 }
 
 
-func (i *Item) GetDisplayItem (id string) (*Item, error) {
+func (i *Item) GetDisplayItem (id uint) (*Item, error) {
 	db := database.GormConnect()
 	if result := db.Where("ID = ? AND items.display_flg = ?", id, 1).
 		Preload("ItemImages").
@@ -70,6 +70,21 @@ func GetDisplayItems() (*domain.Items, error) {
 	}
 	return &items, nil
 }
+
+
+func GetDisplayItemsCategoryId(id uint) (*domain.Items, error) {
+	var items domain.Items
+  db := database.GormConnect()
+	if result := db.Table("items").
+		Where("items.display_flg = ? AND items.category_id = ?", 1, id).
+		Preload("ItemImages").
+    Find(&items); result.Error != nil {
+		fmt.Println(result.Error)
+		return &items, result.Error
+	}
+	return &items, nil
+}
+
 
 
 func SaveItem(item *domain.Item) (*domain.Item, error) {

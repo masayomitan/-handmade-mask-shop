@@ -31,6 +31,7 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 		{
 			api.GET("/get-display-items", API.GetDisplayItems)
 			api.GET("/get-display-item/:id", API.GetDisplayItem)
+			api.GET("/get-display-items-category/:id", API.GetDisplayItemsCategoryId)
 			api.GET("/get-item-images", API.GetItemImages)
 
 			api.GET("/get-categories", API.GetCategories)

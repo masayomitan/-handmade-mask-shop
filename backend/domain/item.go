@@ -20,6 +20,7 @@ type Item struct {
 	Like          int   					  `form:"like"`
 	Display_flg   int   						`form:"display_flg" gorm:"NOT NULL"`
 	CategoryID    uint  					  `form:"category_id"`
+  Orderby       uint							`form:"orderby"`
 
 	CreatedAt    time.Time  				`form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  				`form:"updated_at" gorm:"NOT NULL"`

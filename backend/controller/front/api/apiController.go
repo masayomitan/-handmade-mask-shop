@@ -5,6 +5,7 @@ import (
 	"handmade_mask_shop/domain"
 	"handmade_mask_shop/repository"
 	"net/http"
+	"strconv"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,7 +27,8 @@ func GetItem(c *gin.Context) {
 
 
 func GetDisplayItem(c *gin.Context) {
-  id := c.Param("id")
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
 	p := repository.Item{}
   item, err := p.GetDisplayItem(id)
 	if err != nil {
@@ -46,13 +48,24 @@ func GetDisplayItems(c *gin.Context) {
 }
 
 
-func GetItemImages (c * gin.Context) {
+func GetItemImages(c * gin.Context) {
 	itemImages, err := repository.GetAllItemImages()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 	c.JSON(http.StatusOK, itemImages)
+}
+
+
+func GetDisplayItemsCategoryId(c *gin.Context) {
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
+  items, err := repository.GetDisplayItemsCategoryId(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "items not found"})
+	}
+	c.JSON(http.StatusOK, items)
 }
 
 
