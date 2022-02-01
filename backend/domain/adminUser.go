@@ -14,8 +14,8 @@ type AdminUser struct {
 	Password       string   `form:"password"`
 	User_imageID   uint  		`form:"user_image_id"`
 	
-	Reset_key      string   `json:"reset_key"`
-	Reset_expire   string   `json:"reset_expire"`
+	Reset_key      string   `form:"reset_key"`
+	Reset_expire   string   `form:"reset_expire"`
 
 	CreatedAt    time.Time  `form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`

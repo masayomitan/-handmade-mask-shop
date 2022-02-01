@@ -38,7 +38,20 @@ func GetAdminUserByID(id uint) (domain.AdminUser, error) {
 }
 
 
-func UpdateAdminUser (id uint, imageID uint, request map[string]string) (domain.AdminUser, error) {
+func GetAdminUserByEmail(email string) (domain.AdminUser, error) {
+	db := database.GormConnect()
+
+	if result := db.Table("admin_users").
+	Where("admin_users.email = ? AND admin_users.deleted_at IS NULL", email).
+	Preload("UserImage").
+	First(&adminUser).Debug(); result.Error != nil {
+		return adminUser, result.Error
+	}
+	return adminUser, nil
+}
+
+
+func UpdateAdminUser(id uint, imageID uint, request map[string]string) (domain.AdminUser, error) {
 	db := database.GormConnect()
 	now := time.Now()
 
@@ -47,6 +60,20 @@ func UpdateAdminUser (id uint, imageID uint, request map[string]string) (domain.
 	adminUser.Password = request["password"]
 	
 	adminUser.User_imageID = imageID
+  adminUser.UpdatedAt = now
+
+	if result := db.Updates(&adminUser); result.Error != nil {
+		return adminUser, result.Error
+	}
+	return adminUser, nil
+}
+
+
+func SetResetKey(adminUser domain.AdminUser, key string) (domain.AdminUser, error) {
+	db := database.GormConnect()
+	now := time.Now()
+
+	adminUser.Reset_key = key
   adminUser.UpdatedAt = now
 
 	if result := db.Updates(&adminUser); result.Error != nil {
