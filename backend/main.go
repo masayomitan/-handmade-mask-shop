@@ -35,7 +35,7 @@ func main() {
 			"./templates/admin/adminUsers/regist.html", "./templates/admin/adminUsers/edit.html",
       "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
 			"./templates/admin/elements/header.html", "./templates/admin/elements/footer.html", "./templates/admin/elements/sidebar.html",
-			"./templates/admin/login/index.html",
+			"./templates/admin/logins/index.html", "./templates/admin/logins/reset_password.html", "./templates/admin/logins/reset_password_complete.html",
 		}
 
 		r.LoadHTMLFiles(files...)
