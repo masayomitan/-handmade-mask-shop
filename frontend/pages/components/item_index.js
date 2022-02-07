@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from 'axios';
-import Image from 'next/image'
 import Link from 'next/link';
+import Image from 'next/image'
+
 
 const ItemIndex = () => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL

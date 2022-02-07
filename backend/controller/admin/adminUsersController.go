@@ -10,6 +10,8 @@ import (
 	"handmade_mask_shop/service"
 	"github.com/gin-contrib/sessions"
 	_ "github.com/go-sql-driver/mysql"
+	// "log"
+	// "os"
 )
 
 var AdminUser domain.AdminUser
@@ -21,7 +23,6 @@ func AdminRegist (c *gin.Context) {
 
 func AdminEdit (c *gin.Context) {
 	id := sessions.Default(c).Get("id").(uint)
-
 	adminUser, err := repository.GetAdminUserByID(id)
 	if err != nil {
 		fmt.Println("error message:", err)
@@ -38,14 +39,13 @@ func AdminUpdate (c *gin.Context) {
 	if &id == nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "session not found"})
 	}
-
 	_, err := repository.GetAdminUserByID(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
 	}
 
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+	username        := c.PostForm("username")
+	password        := c.PostForm("password")
 	passwordConfirm := c.PostForm("password_confirm")
 	if (password != passwordConfirm) {
 		fmt.Println("password is not match")
@@ -53,9 +53,9 @@ func AdminUpdate (c *gin.Context) {
     return 
 	}
 	hash := component.HashPassword(password)
-	file, _ := c.FormFile("image")
 
 	var imageID uint
+	file, _ := c.FormFile("image")
 	if file != nil {
 		newFileName := service.RenameFile(file.Filename)
 		imageDir := "./public/images/" 
@@ -75,7 +75,6 @@ func AdminUpdate (c *gin.Context) {
 		"username": username,
 		"password": hash,
 	}
-
 	_, err = repository.UpdateAdminUser(id, imageID, request)
 	if err != nil {
 		fmt.Println(err)
