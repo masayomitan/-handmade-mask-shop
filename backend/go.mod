@@ -16,7 +16,7 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/koron/go-dproxy v1.3.0
 	github.com/sendgrid/rest v2.6.6+incompatible // indirect
-	github.com/sendgrid/sendgrid-go v3.10.4+incompatible
+	github.com/sendgrid/sendgrid-go v3.10.5+incompatible
 	github.com/shopspring/decimal v1.2.0
 	github.com/utrack/gin-csrf v0.0.0-20190424104817-40fb8d2c8fca
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9

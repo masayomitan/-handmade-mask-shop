@@ -105,6 +105,8 @@ github.com/sendgrid/rest v2.6.6+incompatible/go.mod h1:kXX7q3jZtJXK5c5qK83bSGMdV
 github.com/sendgrid/sendgrid-go v1.2.0 h1:2K3teZdhaPe12ftFyFL4AWDH4QmNPc+sCi6mWFx5+oo=
 github.com/sendgrid/sendgrid-go v3.10.4+incompatible h1:k9dIODt5RtaakISeqSZNcXvhiQZXJrPbFpSZNWCf0gc=
 github.com/sendgrid/sendgrid-go v3.10.4+incompatible/go.mod h1:QRQt+LX/NmgVEvmdRw0VT/QgUn499+iza2FnDca9fg8=
+github.com/sendgrid/sendgrid-go v3.10.5+incompatible h1:2f/d7odubrZMkwqSupQDU5ad1GkS8syopBapDazh5bM=
+github.com/sendgrid/sendgrid-go v3.10.5+incompatible/go.mod h1:QRQt+LX/NmgVEvmdRw0VT/QgUn499+iza2FnDca9fg8=
 github.com/shopspring/decimal v1.2.0 h1:abSATXmQEYyShuxI4/vyW3tV1MrKAJzCZ/0zLUXYbsQ=
 github.com/shopspring/decimal v1.2.0/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
