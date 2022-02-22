@@ -33,16 +33,16 @@ func Login(c *gin.Context)  {
 		MaxAge: 86400*14,
 		Path: "/",
 	})
-	username := c.PostForm("username")
+	email := c.PostForm("email")
 	password := c.PostForm("password")
 
 	// Validate form input
-	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
+	if strings.Trim(email, " ") == "" || strings.Trim(password, " ") == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can not be empty"})
 		return
 	}
 
-  request := map[string]string{"username" : username, "password" : password}
+  request := map[string]string{"email" : email, "password" : password}
 	adminUser, err := repository.GetLoginAdminUserByRequest(request)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
