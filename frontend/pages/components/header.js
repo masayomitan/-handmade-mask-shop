@@ -8,18 +8,16 @@ const Header = () => {
           handmade shop
         </h1>
 
-        <ul className="flex justify-around items-center">
-          <li className="mr-4">
-            <Link href="/others/about">
-              <a>このサイトについて</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/others/notice/index">
-              <a>お知らせ</a>
-            </Link>
-          </li>
-        </ul>
+        <div>
+            <input 
+              type="text" 
+              name="search" 
+
+            />
+            <button type="submit" >
+              検索
+            </button>
+        </div>
       </div>
     </>
   )

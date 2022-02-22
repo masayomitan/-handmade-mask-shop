@@ -16,6 +16,10 @@ const ItemIndex = () => {
     // "X-CSRF-Token": csrfToken
   }
 
+  useEffect(()  => {
+    getItems();
+  }, [])
+
   const getItems = useCallback(async () => {
     try {
       const result = await axios.get("front/api/get-display-items");
@@ -24,14 +28,10 @@ const ItemIndex = () => {
       if (axios.isAxiosError(e) && e.response && e.response.status === 400) {
         console.log('400 Error!!')
         setErrorHandler(() => errorHandler(res, e))
-      }
-      
+      } 
     }
   }, [])
-  
-  useEffect(()  => {
-    getItems();
-  }, [getItems])
+
 
   const errorHandler = (res, error) => {
     if (error.response) {
@@ -46,28 +46,25 @@ const ItemIndex = () => {
   
   return (
     <>
-      {items.map((v, i) =>
-          <li key={i} className="inline">
-            <a href={ "/items/detail/" + v.ID}>
-              {v.ItemImages.length > 0 ?
-                <Image
-                  alt="image"
-                  src={apiBaseUrl + v.ItemImages[0].file_path}
-                  width={300}
-                  height={300}
-                />
-                :   
-                <Image
-                  alt="image"
-                  src={apiBaseUrl + "/public/img/no_image.png"}
-                  width={300}
-                  height={300}
-                />
-              } 
-              {v.Name}
-            </a>
-          </li>
-        )}
+      <div>
+        <p>アイテム</p>
+        <ul>
+          {items.map((v, i) =>
+            <li key={i} className="inline">
+              <a href={ "/items/detail/" + v.ID}>
+                  <Image
+                    alt="image"
+                    src={(v.ItemImages.length > 0) ? apiBaseUrl + v.ItemImages[0].file_path
+                      : apiBaseUrl + "/public/img/no_image.png"}
+                    width={200}
+                    height={200}
+                  />
+                {v.Name}
+              </a>
+            </li>
+          )}
+        </ul>
+      </div>
     </>
   )
 }

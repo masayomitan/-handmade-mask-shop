@@ -123,14 +123,14 @@ func GetCategories(c *gin.Context) {
 func PostCategory(c *gin.Context) {
   err :=  c.ShouldBindJSON(&category)
 	if err != nil {
-		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		c.JSON(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
   //Not save at all if record alredy found 
   exists := repository.CheckExistsByCategoryName(category.Name)
 	if exists == true {
 		fmt.Println("record already exists")
-		c.String(http.StatusBadRequest, "record already exists: "+err.Error())
+		c.JSON(http.StatusBadRequest, "record already exists: "+err.Error())
 		return
 	}
   _, err = repository.SaveCategory(&category)
@@ -145,14 +145,14 @@ func PostCategory(c *gin.Context) {
 func UpdateCategory(c *gin.Context) {
 	err :=  c.ShouldBindJSON(&category)
 	if err != nil {
-		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		c.JSON(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
   //Not save at all if record alredy found 
 	exists := repository.CheckExistsByCategoryName(category.Name)
 	if exists == true {
 		fmt.Println("record already exists")
-		c.String(http.StatusBadRequest, "record already exists: "+err.Error())
+		c.JSON(http.StatusBadRequest, "record already exists: "+err.Error())
 		return
 	}
 	id := c.Param("id")

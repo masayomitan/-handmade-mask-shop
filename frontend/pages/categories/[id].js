@@ -21,7 +21,7 @@ const ItemsFromCategoryId = () => {
     // "X-CSRF-Token": csrfToken
   }
   
-  const getDisplayItemsByCategoryId = useCallback(async() => {
+  const getItemsByCategoryId = useCallback(async() => {
     try {
       const result = await axios.get("/front/api/get-display-items-category/" + id)
       setItems(result.data)
@@ -35,8 +35,8 @@ const ItemsFromCategoryId = () => {
 
 
   useEffect((id)  => {
-    getDisplayItemsByCategoryId(id)
-  }, [getDisplayItemsByCategoryId])
+    getItemsByCategoryId(id)
+  }, [getItemsByCategoryId])
 
 
     return (

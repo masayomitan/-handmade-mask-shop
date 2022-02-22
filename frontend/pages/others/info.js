@@ -1,5 +1,6 @@
 
-const NoticeIndex = () => {
+
+const Info = () => {
   return (
     <>
       <h1 className="text-3xl font-bold">
@@ -7,7 +8,7 @@ const NoticeIndex = () => {
       </h1>
       <ul>
         <li>
-          このサイrrrrトについて
+          このサイトについて
         </li>
         <li>
           お知らせ
@@ -17,4 +18,4 @@ const NoticeIndex = () => {
   )
 }
 
-export default NoticeIndex
+export default Info
