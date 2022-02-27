@@ -70,23 +70,24 @@ func PostItem(c *gin.Context) {
 func UpdateItem(c * gin.Context) {
 	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	id := uint(u64)
-	item, err := repository.GetItemByID(id)
+	_, err := repository.GetItemByID(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "商品が見つかりませんでした"})
 	}
-	err := c.Bind(&item)
-  if err != nil {
+
+	err2 := c.Bind(&item)
+  if err2 != nil {
 		fmt.Println(err)
 		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
 		return
 	}
-	item, err2 := repository.SaveItem(&item)
-	if err2 != nil {
-		fmt.Println(err2)
+
+	item, err3 := repository.UpdateItem(id, &item)
+	if err3 != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err3})
 		return
 	}
-
-	c.JSON(http.StatusOK, "ok")
+	c.JSON(http.StatusOK, item)
 }
 
 func GetItemImages (c * gin.Context) {

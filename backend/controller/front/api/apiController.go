@@ -16,7 +16,8 @@ var category domain.Category
 
 
 func GetItem(c *gin.Context) {
-	id := c.Param("id")
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
 	item, err := repository.GetItemByID(id)
 
 	if err != nil {

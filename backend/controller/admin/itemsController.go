@@ -1,15 +1,14 @@
 package controller
 
 import (
-	// "fmt"
 	"handmade_mask_shop/repository"
 	"handmade_mask_shop/service"
 
 	"github.com/gin-gonic/gin"
-
 	// "github.com/gin-contrib/sessions"
-	"net/http"
 	"encoding/json"
+	"net/http"
+	"strconv"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/csrf"
 )
@@ -36,12 +35,13 @@ func ItemCreate(c *gin.Context) {
 
 func ItemEdit(c *gin.Context) {
 	csrf := csrf.Token
-	id := c.Param("id")
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
 	item, err := repository.GetItemByID(id)
 	jsonItem, _ := json.Marshal(item)
 	jsonItemArr := []string{string(jsonItem)}
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "商品が見つかりませんでした"})
 	}
 	categories := service.GetJsonAllCategories()
   c.HTML(http.StatusOK, "admin/items/edit.html", gin.H{
@@ -53,7 +53,8 @@ func ItemEdit(c *gin.Context) {
 
 
 func ItemDetail(c *gin.Context) {
-	id := c.Param("id")
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
 	item, err := repository.GetItemByID(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
