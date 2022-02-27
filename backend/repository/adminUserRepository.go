@@ -11,10 +11,10 @@ import (
 var adminUser domain.AdminUser
 
 func GetLoginAdminUserByRequest(request map[string]string) (domain.AdminUser, error) {
-  username := request["username"]
+  email := request["email"]
 	db := database.GormConnect()
 	if result := db.Table("admin_users").
-		Where("username = ? AND deleted_at IS NULL", username).
+		Where("email = ? AND deleted_at IS NULL", email).
 		First(&adminUser); result.Error != nil {
 		fmt.Println("wrong or missing username")
 		return adminUser, result.Error
@@ -32,8 +32,6 @@ func GetAdminUserByID(id uint) (domain.AdminUser, error) {
 	First(&adminUser).Debug(); result.Error != nil {
 		return adminUser, result.Error
 	}
-
-	fmt.Println(adminUser.UserImage.File_name)
 	return adminUser, nil
 }
 
