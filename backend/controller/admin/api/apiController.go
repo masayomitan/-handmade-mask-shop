@@ -20,10 +20,11 @@ var category domain.Category
 
 
 func GetItem(c *gin.Context) {
-	id := c.Param("id")
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
 	item, err := repository.GetItemByID(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "商品が見つかりませんでした"})
 	}
 	c.JSON(http.StatusOK, item)
 }
@@ -67,8 +68,25 @@ func PostItem(c *gin.Context) {
 
 
 func UpdateItem(c * gin.Context) {
-	fmt.Println()
-	fmt.Println(c.Param("id"))
+	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	id := uint(u64)
+	item, err := repository.GetItemByID(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "商品が見つかりませんでした"})
+	}
+	err := c.Bind(&item)
+  if err != nil {
+		fmt.Println(err)
+		c.String(http.StatusBadRequest, "Request is failed: "+err.Error())
+		return
+	}
+	item, err2 := repository.SaveItem(&item)
+	if err2 != nil {
+		fmt.Println(err2)
+		return
+	}
+
+	c.JSON(http.StatusOK, "ok")
 }
 
 func GetItemImages (c * gin.Context) {
