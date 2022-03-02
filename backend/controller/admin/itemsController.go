@@ -3,21 +3,23 @@ package controller
 import (
 	"handmade_mask_shop/repository"
 	"handmade_mask_shop/service"
-
+"fmt"
 	"github.com/gin-gonic/gin"
 	// "github.com/gin-contrib/sessions"
 	"encoding/json"
 	"net/http"
 	"strconv"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/csrf"
 )
 
 
 func ItemIndex(c *gin.Context) {
-	data := repository.GetAllItems()
+	items := repository.GetAllItems()
+
 	c.HTML(http.StatusOK, "admin/items/index.html", gin.H{
-		"data" : data,
+		"data" : items,
 	})
 }
 
@@ -59,6 +61,8 @@ func ItemDetail(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "adminUser not found"})
 	}
+	fmt.Println(item)
+
 	c.HTML(http.StatusOK, "admin/items/detail.html", gin.H{
 		"item" : item,
 	})

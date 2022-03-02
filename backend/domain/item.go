@@ -24,7 +24,7 @@ type Item struct {
 
 	CreatedAt    time.Time  				`form:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  				`form:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    gorm.DeletedAt 		`json:"deleted_at" gorm:"default:'null'"`
+	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
 
 	Category Category
 

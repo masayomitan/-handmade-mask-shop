@@ -8,32 +8,35 @@
       </div>
 
       <div class="min-h-screen flex flex-wrap justify-center">
-        {{range .data}}
-          <div class="mx-4">
-            <div class="w-64 pt-16">
-              <div class="bg-white relative shadow-lg hover:shadow-xl transition duration-500 rounded-lg">
-                {{range .ItemImages}}
-                  <div class="relative bg-gray-200 rounded-t-lg">
-                    <img class="object-contain h-48 w-full rounded-t-lg" src="{{.File_path}}" alt="" />
-                  </div>
-                {{end}}
-                <div class="py-6 px-4 rounded-lg bg-white">
-                  <h1 class="text-gray-700 font-bold text-2xl mb-3 hover:text-gray-900 hover:cursor-pointer">{{.Name}}</h1>
-                  <p class="text-gray-700 tracking-wide">{{.Detail}}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>商品名</th>
+              <th>通常価格</th>
+              <th>特別価格</th>
+              <th>在庫</th>
+              <th>カテゴリー</th>
+              <td></td>
+              <td></td>
+            </tr>
+          </thead>
 
-                  <a class="bg-transparent hover:bg-yellow-400 text-black-500 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded" href="/admin/items/detail/{{.ID}}">詳細</a>
-                  <a class="bg-transparent hover:bg-yellow-400 text-black-500 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded" href="/admin/items/edit/{{.ID}}">編集</a>
-                </div>
-                <div class="absolute top-2 right-2 py-2 px-4 bg-white rounded-lg">
-                  <span class="text-md">¥{{.Special_price}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        {{ end }}
-      </div>
-      
-    </div>
-  
+          <tbody>
+            {{range .data}}
+
+                <td>{{.Name}}</td>
+                <td>{{.Normal_price}}</td>
+                <td>{{.Special_price}}</td>
+                <td>{{.Stock}}</td>
+                <td>{{.Category.Name}}</td>
+                <td></td>
+
+                <td><a class="bg-transparent hover:bg-yellow-400 text-black-500 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded" href="/admin/items/detail/{{.ID}}">詳細</a></tr>
+                <td><a class="bg-transparent hover:bg-yellow-400 text-black-500 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded" href="/admin/items/edit/{{.ID}}">編集</a></tr>
+
+              </tr>
+            {{end}}
+          </tbody>
+        </table>
 
 {{ end }}
