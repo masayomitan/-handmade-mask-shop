@@ -19,7 +19,7 @@ func ItemIndex(c *gin.Context) {
 	items := repository.GetAllItems()
 
 	c.HTML(http.StatusOK, "admin/items/index.html", gin.H{
-		"data" : items,
+		"items" : items,
 	})
 }
 

@@ -1,13 +1,10 @@
 module.exports = {
-  purge: [
-    
-    './templates/**/*.html',
-    './src/**/*.js',
-  ],
-  enabled: true,
-  darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      margin: {
+        '5px': '5px',
+      }
+    }
   },
   variants: {
     extend: {},

@@ -33,7 +33,7 @@ func main() {
 			"./templates/admin/dashboards/index.html", "./templates/admin/items/index.html", "./templates/admin/items/detail.html", "./templates/admin/items/create.html", "./templates/admin/items/edit.html", "./templates/admin/items/complete.html", "./templates/admin/items/category.html",
 			"./templates/admin/users/regist.html", "./templates/admin/users/index.html",
 			"./templates/admin/adminUsers/regist.html", "./templates/admin/adminUsers/edit.html",
-      "./templates/layout/dafault.html", "./templates/layout/admin_default.html",
+      "./templates/layout/default.html", "./templates/layout/admin_default.html",
 			"./templates/admin/elements/header.html", "./templates/admin/elements/footer.html", "./templates/admin/elements/sidebar.html",
 			"./templates/admin/logins/index.html", "./templates/admin/logins/reset_password.html", "./templates/admin/logins/reset_password_complete.html",
 		}
