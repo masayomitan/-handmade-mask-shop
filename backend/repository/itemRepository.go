@@ -21,14 +21,14 @@ type Items struct {
 }
 
 
-func GetItemByID(id string) (*domain.Item, error) {
+func GetItemByID(id uint) (*domain.Item, error) {
 	var item domain.Item
 	db := database.GormConnect()
 	if result := db.Where("ID = ? AND items.deleted_at IS NULL", id, "NULL").
 	Preload("ItemImages").
 	Preload("Category").
 	First(&item); result.Error != nil {
-		fmt.Println("wrong or missing username")
+		fmt.Println(result.Error)
 		return &item, result.Error
 	}
 	return &item, nil
@@ -39,8 +39,10 @@ func GetAllItems() (*domain.Items) {
 	var items domain.Items
   db := database.GormConnect()
 	db.Table("items").
-	Where("items.deleted_at IS NULL").
-	Preload("ItemImages").Find(&items)
+		Where("items.deleted_at IS NULL").
+		Preload("ItemImages").
+		Preload("Category").
+		Find(&items)
 	return &items
 }
 
@@ -88,7 +90,6 @@ func GetDisplayItemsCategoryId(id uint) (*domain.Items, error) {
 
 
 func SaveItem(item *domain.Item) (*domain.Item, error) {
-	// fmt.Println(item)
 
 	db := database.GormConnect()
 	now := time.Now()
@@ -96,6 +97,22 @@ func SaveItem(item *domain.Item) (*domain.Item, error) {
   item.UpdatedAt = now
 
 	if result := db.Create(&item); result.Error != nil {
+		return item, result.Error
+	}
+	return item, nil
+}
+
+
+
+func UpdateItem(id uint, item *domain.Item) (*domain.Item, error) {
+
+	db := database.GormConnect()
+	now := time.Now()
+	item.ID = id
+  item.UpdatedAt = now
+
+	if result := db.Updates(&item).
+		Where("id deleted IS NUll", id); result.Error != nil {
 		return item, result.Error
 	}
 	return item, nil
