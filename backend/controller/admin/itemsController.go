@@ -18,6 +18,13 @@ import (
 func ItemIndex(c *gin.Context) {
 	action := "index"
 	items, _ := repository.GetAllItems()
+	
+	//通常検索
+	if (c.Query("search") != "") {
+		searchText := c.Query("search")
+		items, _ = repository.GetQueryItems(searchText)
+	}
+	//公開、非公開での切り替え
 	if (c.Query("display_flg") != "") {
 		u64, _ := strconv.ParseUint(c.Query("display_flg"), 10, 32)
 		flg := uint(u64)
