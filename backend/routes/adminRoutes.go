@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"fmt"
 	"github.com/gin-contrib/sessions"
 	admin "handmade_mask_shop/controller/admin"
   API "handmade_mask_shop/controller/admin/api"
@@ -16,19 +15,22 @@ import (
 
 var csrfMd func(http.Handler) http.Handler
 
-func GetAdminRoutes(r *gin.Engine) *gin.Engine {
-	fmt.Println()
+func GetAdminRoutes(r *gin.Engine) *gin.Engine{
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Page not found"})
   })
   
 	r.GET("/admin/dashboards", admin.Dashboard)
+
 	login := r.Group("/admin/")
 		{
 			login.GET("/", admin.LoginTop)
 			login.POST("/login", admin.Login)
 			login.GET("/logout", admin.Logout)
+			login.GET("/reset-password", admin.ResetPassword)
+			login.POST("/send-email-reset-password", admin.SendEmailResetPassword)
+			login.GET("/reset-password-complete", admin.ResetPasswordComplete)
 		}
 
 	user := r.Group("/admin/users/")
@@ -53,7 +55,9 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine {
 			item.GET("/detail/:id", admin.ItemDetail)
 			item.GET("/create", admin.ItemCreate)
 			item.GET("/edit/:id", admin.ItemEdit)
+			item.GET("/complete", admin.Complete)
 			item.GET("/category", admin.Category)
+
 		}
 
 	api := r.Group("/admin/api/")
