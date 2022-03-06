@@ -5,22 +5,35 @@
       <div class="fixed top-0 bottom-0 left-0 mt-20 w-60">
         {{ template "sidebar" . }}
       </div>
-
+      
       <div class="pl-60">
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+              <input type="search" class="pl-10 pr-2 h-10 py-1 rounded-lg border border-gray-200 focus:border-gray-300 focus:outline-none focus:shadow-inner leading-none" placeholder="Search">
+              <svg class="h-6 w-6 text-gray-300 ml-2 mt-2 stroke-current absolute top-0 left-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+          <div><a href="/admin/items/?display_flg=1">全一覧</a></div>
+          <div><a href="/admin/items/?display_flg=1">公開商品のみ表示</a></div>
+          <div><a href="/admin/items/?display_flg=0">非公開商品のみ表示c</a></div>
+
         <table class="table-auto">
           <thead>
+
             <tr>
               <th class="px-4 py-2">商品名</th>
               <th class="px-4 py-2">通常価格</th>
               <th class="px-4 py-2">特別価格</th>
               <th class="px-4 py-2">在庫</th>
               <th class="px-4 py-2">カテゴリー</th>
-              <th class="px-4 py-2">公開：非公開</th>
+              <th class="px-4 py-2">公開/非公開</th>
               <td></td>
               <td></td>
             </tr>
           </thead>
-          
+
           <tbody>
             {{range .items}}
             <tr>
@@ -29,7 +42,12 @@
                 <td class="border px-4 py-2">{{.Special_price}}</td>
                 <td class="border px-4 py-2">{{.Stock}}</td>
                 <td class="border px-4 py-2">{{.Category.Name}}</td>
-                <td class="border px-4 py-2">{{.Display_flg}}</td>
+
+                {{if eq .Display_flg 1}}
+                  <td class="border px-4 py-2">公開</td>
+                {{else}}
+                  <td class="border px-4 py-2">非公開</td>
+                {{end}}
                 <td></td>
 
                 <td class="border px-4 py-2"><a class="bg-transparent hover:bg-yellow-400 text-black-500 font-semibold hover:text-white py-2 px-4 border border-gray-800 hover:border-transparent rounded" href="/admin/items/detail/{{.ID}}">詳細</a></td>

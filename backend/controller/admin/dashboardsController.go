@@ -14,12 +14,14 @@ import (
 
 func Dashboard(c *gin.Context) {
 	session := sessions.Default(c)
+	action := "dashboard"
 	
 	fmt.Println(session.Get("adminUser"))
 
 	c.HTML(http.StatusOK, "admin/dashboards", gin.H{
 		"param1": "ダッシュボードです",
     "param2": "layoutです",
+		"action": action,
 	})
 }
 

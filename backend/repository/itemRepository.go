@@ -35,15 +35,33 @@ func GetItemByID(id uint) (*domain.Item, error) {
 } 
 
 
-func GetAllItems() (*domain.Items) {
+func GetAllItems() (*domain.Items, error) {
 	var items domain.Items
   db := database.GormConnect()
-	db.Table("items").
+	if result := db.Table("items").
 		Where("items.deleted_at IS NULL").
 		Preload("ItemImages").
 		Preload("Category").
-		Find(&items)
-	return &items
+		Find(&items);  result.Error != nil {
+			fmt.Println(result.Error)
+			return &items, result.Error
+		}
+		return &items, nil
+	}
+
+
+func GetAllItemsByDisplayFlg(flg uint) (*domain.Items, error) {
+	var items domain.Items
+  db := database.GormConnect()
+	if result := db.Table("items").
+		Where("items.display_flg = ? AND items.deleted_at IS NULL", flg).
+		Preload("ItemImages").
+		Preload("Category").
+		Find(&items); result.Error != nil {
+			fmt.Println(result.Error)
+			return &items, result.Error
+		}
+		return &items, nil
 }
 
 

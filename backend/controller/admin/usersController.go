@@ -14,7 +14,9 @@ import (
 
 
 func UserIndex (c *gin.Context) {
+	action := "userIndex"
 	c.HTML(http.StatusOK, "admin/users/index.html", gin.H{
+		"action" :action,
 	})
 }
 
