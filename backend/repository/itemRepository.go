@@ -68,13 +68,12 @@ func GetAllItemsByDisplayFlg(flg uint) (*domain.Items, error) {
 func GetQueryItems(text string) (*domain.Items, error) {
 	var items domain.Items
   db := database.GormConnect()
-
 	text = "%" + text + "%"
 	if result := db.Table("items").
 		Where("items.name LIKE ?", text).
 		Preload("ItemImages").
 		Preload("Category").
-		Find(&items).Debug(); result.Error != nil {
+		Find(&items); result.Error != nil {
 			fmt.Println(result.Error)
 			return &items, result.Error
 		}
