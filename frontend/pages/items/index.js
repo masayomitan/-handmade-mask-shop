@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 
 const ItemIndex = () => {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   const [items, setItems] = useState([])
   const [useErrorHandler, setErrorHandler] = useState(null)
