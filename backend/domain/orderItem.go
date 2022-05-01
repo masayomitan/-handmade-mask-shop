@@ -8,7 +8,6 @@ import (
 
 type OrderItem struct {
 	ID           uint 					 `gorm:"primaryKey"`
-	UserID       uint 					 `gorm:"name"`
   OrderID      uint 					 `gorm:"order_id"`
 	PaymentId    uint 					 `gorm:"payment_id"`
 
@@ -34,7 +33,6 @@ type OrderItem struct {
 	DeletedAt    time.Time       `form:"deleted_at" gorm:"default:'null'"`
 
 
-	User User
 	Item Item
 	Order Order
 	

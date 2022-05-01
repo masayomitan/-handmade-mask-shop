@@ -15,7 +15,7 @@ func SaveAdminUserImage(fileName string) (id uint){
   filePath := "/public/images/"
 	db := database.GormConnect()
 
-	var data domain.UserImage
+	var data domain.CostomerImage
 
 	data.File_name = fileName
 	data.File_path = filePath + fileName

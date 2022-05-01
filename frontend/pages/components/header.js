@@ -7,6 +7,11 @@ const Header = () => {
         <h1 className="text-3xl font-bold">
           handmade shop
         </h1>
+        <p>
+          <Link href={"/api/auth/signin"}>
+            ログイン
+          </Link>
+        </p>
 
         <div>
             <input 

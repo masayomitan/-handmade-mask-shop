@@ -8,7 +8,7 @@ import (
 
 type Contact struct {
 	ID          uint   `gorm:"primaryKey"`
-	UserID      uint   `json:"user_id"`
+	CostomerID  uint   `json:"costomer_id"`
   Name        string `json:"name"`
 	Email       string `json:"email"`
 	Message     string `json:"message"`

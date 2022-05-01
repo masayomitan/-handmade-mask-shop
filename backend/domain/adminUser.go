@@ -21,7 +21,6 @@ type AdminUser struct {
 	UpdatedAt    time.Time  `form:"updated_at" gorm:"NOT NULL"`
 	DeletedAt    gorm.DeletedAt 		`form:"deleted_at" gorm:"default:'null'"`
 	
-	UserImage UserImage
 }
 
 type AdminUsers []AdminUser

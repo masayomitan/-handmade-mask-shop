@@ -16,7 +16,7 @@ import (
 
 
 func ItemIndex(c *gin.Context) {
-	action := "index"
+	action := "items"
 	items, _ := repository.GetAllItems()
 	
 	//通常検索
@@ -71,7 +71,7 @@ func ItemEdit(c *gin.Context) {
 
 
 func ItemDetail(c *gin.Context) {
-	action := "index"
+	action := "items"
 	u64, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	id := uint(u64)
 	item, err := repository.GetItemByID(id)

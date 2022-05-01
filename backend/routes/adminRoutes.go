@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"fmt"
 	"github.com/gin-contrib/sessions"
 	admin "handmade_mask_shop/controller/admin"
   API "handmade_mask_shop/controller/admin/api"
@@ -33,10 +34,9 @@ func GetAdminRoutes(r *gin.Engine) *gin.Engine{
 			login.GET("/reset-password-complete", admin.ResetPasswordComplete)
 		}
 
-	user := r.Group("/admin/users/")
+	user := r.Group("/admin/costomers/")
 		{
-			user.GET("/", admin.UserIndex)
-			user.GET("/regist", admin.UserRegist)
+			user.GET("/", admin.CostomerIndex)
 		}
 		
 	//管理ユーザーグループ
@@ -82,7 +82,7 @@ func LoginCheckMiddleware() gin.HandlerFunc {
 			var setAdminUser domain.SetAdminUser
 			loginAdminUser, _ := dproxy.New(session.Get("adminUser")).String()
 			err := json.Unmarshal([]byte(loginAdminUser), &setAdminUser)
-			// fmt.Println(setAdminUser.ID)
+			fmt.Println(setAdminUser.ID)
 
 			if err != nil {
 					c.Redirect(http.StatusSeeOther, "/admin/")

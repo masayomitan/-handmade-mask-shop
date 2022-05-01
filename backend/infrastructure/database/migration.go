@@ -9,20 +9,20 @@ import (
 )
 
 func Migrations(db *gorm.DB) {
-
 	// db.AutoMigrate(&domain.Cart{})
 	// db.AutoMigrate(&domain.CartItem{})
 	// db.AutoMigrate(&domain.Category{})
 	// db.AutoMigrate(&domain.Contact{})
 	// db.AutoMigrate(&domain.Delivery{} )
-	db.AutoMigrate(&domain.Item{})
-	db.AutoMigrate(&domain.ItemImage{})
+	// db.AutoMigrate(&domain.Item{})
+	// db.AutoMigrate(&domain.ItemImage{})
 	// db.AutoMigrate(&domain.ItemsItemImage{})
 	// db.AutoMigrate(&domain.Order{})
 	// db.AutoMigrate(&domain.OrderItem{})
 	// db.AutoMigrate(&domain.Review{})
 	// db.AutoMigrate(&domain.ShopInformation{})
-	// db.AutoMigrate(&domain.User{})
+	db.AutoMigrate(&domain.Costomer{})
+	// db.AutoMigrate(&domain.CostomerImage{})
 	// db.AutoMigrate(&domain.AdminUser{})
 	// db.AutoMigrate(&domain.UserImage{})
 }

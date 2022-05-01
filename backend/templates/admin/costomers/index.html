@@ -1,0 +1,30 @@
+{{define "admin/costomers/index.html"}}
+    {{ template "admin_default" . }}
+
+
+    <div class="">
+      <div class="fixed top-0 bottom-0 left-0 mt-20 w-60">
+        {{ template "sidebar" . }}
+      </div>
+
+      <div class="pl-60">
+        <table class="table-auto">
+          <thead>
+            <tr>
+              <th class="px-4 py-2">苗字</th>
+              <th class="px-4 py-2">名前</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .costomers}}
+            <tr>
+              <td class="border px-4 py-2">{{.Family_name}}</td>
+              <td class="border px-4 py-2">{{.First_name}}</td>
+            </tr>
+            {{ end }}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+{{ end }}

@@ -5,7 +5,7 @@
 
         <ul class="flex flex-col py-4">
           <li>
-            {{if eq .action "index"}}
+            {{if eq .action "items"}}
               <a href="/admin/items" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-600 hover:text-gray-800 bg-gray-200">
                 <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-home"></i></span>
                 <span class="text-sm font-extrabold">商品一覧</span>
@@ -47,13 +47,13 @@
           </li>
 
           <li>
-            {{if eq .action "userIndex"}}
-              <a href="/admin/users" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 bg-gray-200">
+            {{if eq .action "costomers"}}
+              <a href="/admin/costomers" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 bg-gray-200">
                 <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-drink"></i></span>
                 <span class="text-sm font-extrabold">会員</span>
               </a>
             {{else}}
-              <a href="/admin/users" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 hover:bg-gray-200">
+              <a href="/admin/costomers" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 hover:bg-gray-200">
                 <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-drink"></i></span>
                 <span class="text-sm font-extrabold">会員</span>
               </a>
