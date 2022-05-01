@@ -110,14 +110,14 @@ func PostItemImage (c * gin.Context) {
 		if f, exist := os.Stat(imageDir); os.IsNotExist(exist) || 
 		!f.IsDir() {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"message": "error. could not find dir",
+				"message": "保存するフォルダがありません",
 			})
 		}
 		err2 := c.SaveUploadedFile(file, filePath)
 		if err2 != nil {
 			defer 
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-					"message": "Unable to save the file",
+					"message": "画像が保存できませんでした",
 			})
 			return
 		}

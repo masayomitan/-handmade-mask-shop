@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 const ItemsFromCategoryId = () => {
 
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const [items, setItems] = useState([])
   const [category, setCategory] = useState('')
   const [useErrorHandler, setErrorHandler] = useState(null)

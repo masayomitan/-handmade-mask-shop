@@ -4,13 +4,13 @@ const ItemValidation = (data) =>  {
   const valid = {'key': [], 'message': []}
   let hasError = false
 
-    
+
   if (data.length ===  0) {
     hasError = true
     valid.key.all = true
     valid.message.all = '商品情報が未入力です'
   }
-
+  console.log(data.category_id)
   if (!data.name) {
     hasError = true
     valid.key.name = true

@@ -59,6 +59,7 @@ func UpdateCategory(id uint, category *domain.Category) (*domain.Category, error
 
 
 //logical delete
+//論理削除
 func DeleteCategory(id uint) (error)  {
   db.Table("categories").
 	Where("id = ?", id).

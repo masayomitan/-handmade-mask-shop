@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
+import {createBrowserHistory} from "history"
+
 
 import ItemImage from "./itemImage";
 import ItemValidation from "../../lib/itemValidation";
@@ -13,32 +15,35 @@ const ItemCreate = () =>  {
   }
   // let csrf = document.getElementsByName("csrf_token")[0].value
   // console.log(csrf)
-  var category = document.getElementById("category").value;
-  var res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:''}];
-
+  let category = document.getElementById("category").value;
+  let res = (categories !== null) ? JSON.parse(category) : [{ID:'', name:''}];
+  const history = createBrowserHistory()
   const numberRegExp = /^[0-9]+$/
 
   const [data, setData] = useState([])
 
   const itemData = document.getElementById("item_edit")
   const [editData, setEditData] = useState((itemData !== null) ? JSON.parse(itemData.value) : null)
-  
-  console.log(editData[0].ItemImages)
+
+  if (editData !== null) {
+    useEffect(() => {
+      redefineData(editData[0])
+    }, [])
+  }
+
 
   const [image, setImage] = useState("")
   const [imageIds, setImageIds] = useState([])
   const [imagePath, setImagePath] = useState([])
   
-  const [checked, setChecked] = useState(false);
-  const [categories, setCategories] = useState(res[0]);
+  const [checked, setChecked] = useState(false)
+  const [categories, setCategories] = useState(res[0])
   const [previews, setPreviews] = useState([])
-
+  const [error, setError] = useState({'valid': {'key': [], 'message': []}})
 
   const match = location.href.match(/[0-9]+/)
   const id = (match !== null) ? match[0] : null
   const endPoint = (id !== null)  ? "/admin/api/update-item/" + id : "/admin/api/post-item"
-  
-  const [error, setError] = useState({'valid': {'key': [], 'message': []}});
 
 
   if (image !== '') {
@@ -50,7 +55,7 @@ const ItemCreate = () =>  {
   }
 
   const postItem = (data) => {
-    
+
     const [valid, hasError] = ItemValidation(data)
     if (hasError === true) return setError({...error, valid})
     
@@ -59,12 +64,14 @@ const ItemCreate = () =>  {
     axios.post(endPoint, setParams)
     .then(response => {
         console.log(response.data);
+        redirectComplete()
     })
     .catch(err => {
         console.log(err);
     });
   };
 
+  //formで取得したデータをappendする
   const appendData = (data) => {
     const param = new FormData();
     param.append("name", data.name)
@@ -85,7 +92,6 @@ const ItemCreate = () =>  {
     param.append("category_id", data.category_id)
 
     if (data.imageIds !== undefined) {
-      console.log(data.imageIds)
       let num = Object.keys(data.imageIds).length
       for (let i = 0; i < num; i++) {
         let sum = (i+1)
@@ -95,6 +101,26 @@ const ItemCreate = () =>  {
     return param
   }
 
+  //編集でkeyの頭文字変更に必要（他に良い方法あり）
+  const redefineData = (editData) => {
+    var newData = {
+      id: editData.ID,
+      name: editData.Name,
+      admin_user_id: editData.AdminUserID,
+      detail: editData.Detail,
+      category_id: editData.CategoryID,
+      display_flg: editData.Display_flg,
+      normal_price: editData.Normal_price,
+      special_price: editData.Special_price,
+      stock: editData.Stock
+    }
+    setData(...data, newData)
+  }
+
+  const redirectComplete = () => {
+    history.push("/admin/items/complete")
+    window.location.reload()
+  }
 
   const handleChange = (e) => {
     const t = e.target;
@@ -217,7 +243,7 @@ const ItemCreate = () =>  {
           }
           </select>
         </p>
-        <button type="submit" onClick={() => postItem(data)} >登録す</button>
+        <button type="submit" onClick={() => postItem(data)} >商品登録する</button>
       </>
   )
 }

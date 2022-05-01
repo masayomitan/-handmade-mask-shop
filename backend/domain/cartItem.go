@@ -8,9 +8,9 @@ import (
 
 type CartItem struct {
 	ID            uint    				`gorm:"primaryKey"`
-	ItemID        uint            `gorm:"item_id"`
-	Item_code     int           	`json:"item_code"`
 	CartID        uint    				`gorm:"cart_id"`
+	ItemID        uint            `json:"item_id"`
+	Item_code     int           	`json:"item_code"`
   Price         decimal.Decimal `json:"price"`
 	Quantity      int             `json:"quantity"`
 	Point         int             `json:"point"`

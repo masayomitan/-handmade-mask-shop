@@ -7,7 +7,7 @@ import (
 		"fmt"
 		"github.com/joho/godotenv"
 		"os"
-		// "handmade_mask_shop/infrastructure/database"
+		"handmade_mask_shop/infrastructure/database"
 		"handmade_mask_shop/routes"
 		"github.com/gin-contrib/sessions"
 		"github.com/gin-contrib/sessions/cookie"
@@ -24,14 +24,13 @@ func main() {
 	r = routes.GetAdminRoutes(r)
 	r = routes.GetRoutes(r)
 
-	// db := database.GormConnect()
-	// database.Migrations(db)
+	db := database.GormConnect()
+	database.Migrations(db)
 	// database.Seeds(db)
 
 		files := []string{ 
-			"./templates/top/index.html", "./templates/front/item/detail.html",
 			"./templates/admin/dashboards/index.html", "./templates/admin/items/index.html", "./templates/admin/items/detail.html", "./templates/admin/items/create.html", "./templates/admin/items/edit.html", "./templates/admin/items/complete.html", "./templates/admin/items/category.html",
-			"./templates/admin/users/regist.html", "./templates/admin/users/index.html",
+			"./templates/admin/costomers/index.html",
 			"./templates/admin/adminUsers/regist.html", "./templates/admin/adminUsers/edit.html",
       "./templates/layout/default.html", "./templates/layout/admin_default.html",
 			"./templates/admin/elements/header.html", "./templates/admin/elements/footer.html", "./templates/admin/elements/sidebar.html",
@@ -39,7 +38,6 @@ func main() {
 		}
 
 		r.LoadHTMLFiles(files...)
-		
 		r.Static("/src", "./src")
 		r.Static("/public", "./public")
 

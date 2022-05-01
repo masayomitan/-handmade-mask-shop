@@ -4,10 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from './components/header.js';
 import Footer from './components/footer.js';
-import ItemIndex from './components/item_index.js';
+import ItemIndex from './items/index.js';
 
 const Top = () => {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   const [categories, setCategories] = useState([])
 
@@ -39,13 +39,6 @@ const Top = () => {
       <div className="font-serif">
         <div className="">
           <Header />
-        </div>
-        <div className="flex">
-            <img
-              className="w-full"
-              alt="image"
-              src={apiBaseUrl + "/public/img/tops/top.jpg"}
-            />
         </div>
         <div className="flex">
           ハンドメイドを紹介ぺージ

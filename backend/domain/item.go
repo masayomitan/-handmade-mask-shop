@@ -15,10 +15,11 @@ type Item struct {
 	Detail        string  					`form:"detail"`
 	Normal_price  decimal.Decimal   `form:"normal_price"`
 	Special_price decimal.Decimal   `form:"special_price"`
-  Stock         int     				  `form:"stock"`
+  Stock         int     				  `form:"stock" gorm:"NOT NULL"`
 	Add_point     int               `form:"add_point"`
 	Like          int   					  `form:"like"`
 	Display_flg   int   						`form:"display_flg" gorm:"NOT NULL"`
+	Recommend     int   						`form:"recommend" gorm:"NOT NULL"`
 	CategoryID    uint  					  `form:"category_id"`
   Orderby       uint							`form:"orderby"`
 
@@ -29,7 +30,7 @@ type Item struct {
 	Category Category
 
 	ItemImages []ItemImage `gorm:"many2many:items_item_images; association_autoupdate:false"`
-	CartItems  []CartItem
+	// CartItems  []CartItem
 	OrderItems []OrderItem
 
 }

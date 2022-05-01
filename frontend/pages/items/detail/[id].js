@@ -7,14 +7,15 @@ import Header from '../../components/header.js';
 
 
 const ItemDetail = () => {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const [item, setItem] = useState([])
+  const [quantity, setQuantity] = useState(1)
   const [useErrorHandler, setErrorHandler] = useState(null)
   const router = useRouter();
   const id  = router.query.id;
 
-  axios.defaults.baseURL = apiBaseUrl
+  axios.defaults.baseURL = baseUrl
   axios.defaults.headers.common = {
     'Content-Type': 'application/json',
     // 'X-Requested-With': 'XMLHttpRequest',
@@ -26,8 +27,7 @@ const ItemDetail = () => {
 
     if (id != undefined) {
       try {
-        const result = await axios.get("/front/api/get-display-item/" + id);
-        console.log(result.data)
+        const result = await axios.get(apiUrl + "get-display-item/" + id);
         setItem(result.data)
 
       } catch (e) {
@@ -40,30 +40,76 @@ const ItemDetail = () => {
   }, [id])
 
   useEffect((id)  => {
-    getDisplayItem(id)
+      getDisplayItem(id)
   }, [getDisplayItem])
-
 
 
   const errorHandler = (res, error) => {
     if (error.response) {
-        res.status(error.response.status).send({
-            error: error.response.data,
-            errorMsg: error.message
-        })
+      res.status(error.response.status).send({
+        error: error.response.data,
+        errorMsg: error.message
+      })
     } else {
-        res.status(500).send({ errorMsg: error.message })
+      res.status(500).send({ errorMsg: error.message })
     }
   }
 
-    return (
-      <>
-        <p>
-        {item.ID}
-        {item.Name}
-        </p>
-      </>
-    )
+  const addCart = (itemId, quantity) => {
+    if (!itemId) {
+      return;
+    }
+
+    const request = {
+      item_id: itemId,
+      quantity: parseInt(quantity)
+    }
+
+    axios.post(apiUrl + 'add-order', request)
+    .then(response => {
+      // console.log(response)
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  const quantityOptions = (stock) => {
+    const array = []
+    for (let i = 1; i < (stock + 1); i++) {
+      array.push(<option key={i}>{i}</option>)
+    }
+    return array
+  }
+
+  const setQuantityData = (e) => {
+    const t = e.target;
+    const value = t.value;
+    setQuantity(value)
+  }
+
+  return (
+    <>
+      <p>
+      {item.ID}
+      {item.Name}
+      </p>
+
+      <label>数量</label>
+      <select
+        onChange={setQuantityData}
+      >
+        {quantityOptions(item.Stock)}
+      </select>
+
+      <button onClick={() => addCart(item.ID, quantity)}>
+        カートに追加する
+      </button>
+      <button>
+        今すぐ購入
+      </button>
+    </>
+  )
 }
 
 export default ItemDetail

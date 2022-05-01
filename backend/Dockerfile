@@ -1,4 +1,4 @@
-FROM golang:1.15.7-alpine as dev
+FROM golang:1.15.7-alpine
 
 COPY go.mod ./go.mod
 COPY go.sum ./go.sum
@@ -12,18 +12,6 @@ COPY go.mod go.sum ./
 RUN go mod download
 EXPOSE 8080
 
-CMD ["go", "run", "main.go"]
-
-
-FROM golang:1.15.7-alpine as prod
-
-ENV ROOT=/go/src/app
-WORKDIR ${ROOT}
-
-RUN apk update && apk add git
-COPY go.mod go.sum ./
-RUN go mod download
-
 COPY . ${ROOT}
 RUN CGO_ENABLED=0 GOOS=linux go build -o $ROOT/binary
 
@@ -31,5 +19,10 @@ ENV ROOT=/go/src/app
 WORKDIR ${ROOT}
 COPY --from=builder ${ROOT}/binary ${ROOT}
 
-EXPOSE 8080
-CMD ["/go/src/app/binary"]
+CMD ["go", "run", "main.go", "/go/src/app/binary"]
+
+
+
+FROM nginx:latest
+
+COPY ./docker/nginx/default.conf /etc/nginx/nginx.conf

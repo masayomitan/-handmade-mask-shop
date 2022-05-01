@@ -22,7 +22,6 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 
 	login := r.Group("/")
 		{
-			login.GET("/", front.Top)
 			login.POST("/login", front.Login)
 			login.GET("/logout", front.Logout)
 		}
@@ -35,6 +34,8 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 			api.GET("/get-item-images", API.GetItemImages)
 
 			api.GET("/get-categories", API.GetCategories)
+
+			api.POST("/add-order", API.AddOrder)
 		}
   return r
 }

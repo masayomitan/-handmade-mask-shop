@@ -1,0 +1,17 @@
+{{ define "admin/login/index.html" }}
+
+ログイン
+<form action="/admin/login" method="POST">
+
+  email
+  <p><input type="text" name="email"></p>
+  pass
+  <p><input type="text" name="password"></p>
+  <p><input type="submit" value="ログイン"></p>
+</form>
+
+<div >
+  <a href="/admin/reset-password">パスワード忘れた</a>
+</div>
+
+{{ end }}
