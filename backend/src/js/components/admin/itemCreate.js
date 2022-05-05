@@ -55,19 +55,17 @@ const ItemCreate = () =>  {
   }
 
   const postItem = (data) => {
-
     const [valid, hasError] = ItemValidation(data)
     if (hasError === true) return setError({...error, valid})
     
     const setParams = appendData(data)
-
     axios.post(endPoint, setParams)
     .then(response => {
-        console.log(response.data);
-        redirectComplete()
+      console.log(response.data);
+      redirectComplete()
     })
     .catch(err => {
-        console.log(err);
+      console.log(err);
     });
   };
 

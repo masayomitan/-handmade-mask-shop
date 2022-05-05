@@ -34,8 +34,16 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 			api.GET("/get-item-images", API.GetItemImages)
 
 			api.GET("/get-categories", API.GetCategories)
-
-			api.POST("/add-order", API.AddOrder)
+		}
+	
+	user := r.Group("/front/api/costomer/") 
+		{
+			user.POST("/get-by-email", API.GetByEmail)
+		}
+		
+	order := r.Group("/front/api/order/")
+		{
+			order.POST("/add-order", API.AddOrder)
 		}
   return r
 }
