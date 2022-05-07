@@ -8,16 +8,16 @@ import (
 )
 
 type Costomer struct {
-	ID        		  uint      `gorm:"primaryKey"`
+	ID        		  uint      `json:"id" gorm:"primaryKey"`
 	StatusID        uint
 	Password        string    `json:"password"`
-	Handlename      string
-	Family_name      string `json:"family_name"`
-	First_name       string `json:"first_name"`
-	Family_name_kana  string
-	First_name_kana   string
-	Email           *string
-	Phone_number    int   
+	Handlename      	string		`json:"handle_name"`
+	Family_name      	string		`json:"family_name"`
+	First_name       	string 	`json:"first_name"`
+	Family_name_kana  string	`json:"first_name_kana"`
+	First_name_kana   string  `json:"family_name_kana"`
+	Email           	string  `json:"email" gorm:"uniqueIndex"`
+	Phone_number    	int   
 	Birthday        time.Time
   SexId           uint
 	PrefID          uint
@@ -26,8 +26,8 @@ type Costomer struct {
 	Address_2       string
 	First_Purchase_date	time.Time
 	Last_Purchase_date  	time.Time
-	Purchase_times  int                  `json:"purchase_times" gorm:"default:0"`
-	Purchase_total  int             		  `json:"purchase_total" gorm:"default:0"`
+	Purchase_times  int                 `json:"purchase_times" gorm:"default:0"`
+	Purchase_total  int             		`json:"purchase_total" gorm:"default:0"`
 	Purchase_average    decimal.Decimal `json:"purchase_average" gorm:"default:0"`
 	Point          int                  `json:"point" gorm:"default:0"`
 	Reset_key      string
