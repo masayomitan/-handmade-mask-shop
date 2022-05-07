@@ -22,10 +22,21 @@ func GetCostomers() (*domain.Costomers, error) {
 	db := database.GormConnect()
 
 	if result := db.Table("costomers").
-	Where("costomers.deleted_at IS NULL").
-	// Preload("CostomerImage").
-	Find(&costomers); result.Error != nil {
+		Where("costomers.deleted_at IS NULL").
+		Preload("CostomerImage").
+		Find(&costomers); result.Error != nil {
 		return &costomers, result.Error
 	}
 	return &costomers, nil
+}
+
+func (c *Costomer) GetCostomerByEmail (email string) (*Costomer, error) {
+	
+	if result := db.Table("costomers").
+		Where("costomers.email = ?", email).
+		Preload("CostomerImage").
+		First(&c).Debug(); result.Error != nil {
+		return c, result.Error
+}
+	return c, nil
 }
