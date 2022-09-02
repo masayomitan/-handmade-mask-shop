@@ -11,14 +11,14 @@ type Costomer struct {
 	ID        		  uint      `json:"id" gorm:"primaryKey"`
 	StatusID        uint
 	Password        string    `json:"password"`
-	Handlename      	string		`json:"handle_name"`
-	Family_name      	string		`json:"family_name"`
+	Handlename      	string	`json:"handle_name"`
+	Family_name      	string	`json:"family_name"`
 	First_name       	string 	`json:"first_name"`
 	Family_name_kana  string	`json:"first_name_kana"`
 	First_name_kana   string  `json:"family_name_kana"`
 	Email           	string  `json:"email" gorm:"uniqueIndex"`
 	Phone_number    	int   
-	Birthday        time.Time
+	Birthday        time.Time `json:"birthday"`
   SexId           uint
 	PrefID          uint
 	Postal_code     int
@@ -39,6 +39,7 @@ type Costomer struct {
 	
 	// Carts []Cart
 	Orders []Order  `gorm:"foreignKey:CostomerID"`
+	CostomerAdresses []CostomerAddress  `gorm:"foreignKey:CostomerID"`
 	CostomerImages []CostomerImage  `gorm:"foreignKey:CostomerID"`
 }
 

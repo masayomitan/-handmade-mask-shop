@@ -15,7 +15,7 @@ type  ItemImage struct {
 
 	CreatedAt    time.Time  `json:"created_at" gorm:"NOT NULL"`
 	UpdatedAt    time.Time  `json:"updated_at" gorm:"NOT NULL"`
-	DeletedAt    gorm.DeletedAt  `form:"deleted_at" gorm:"default:'null'"`
+	DeletedAt    gorm.DeletedAt  `json:"deleted_at" gorm:"default:'null'"`
 }
 
 type ItemImages []ItemImage

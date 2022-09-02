@@ -12,11 +12,11 @@ import (
 type ItemImageRepository struct {}
 
 type ItemImage struct {
-	domain.ItemImage
+	*domain.ItemImage
 }
 
 type ItemsItemImage struct {
-	domain.ItemsItemImage
+	*domain.ItemsItemImage
 }
 
 var itemImages domain.ItemImages
@@ -52,7 +52,7 @@ func (i *ItemImage) SaveItemImage(userId uint, fileName string) (*ItemImage, err
 	return i, nil
 }
 
-
+//中間テーブル保存
 func (i * ItemsItemImage) SaveItemImageIds(itemId uint, imageId string) (*ItemsItemImage, error) {
 	db := database.GormConnect()
 	u64, _ := strconv.ParseUint(imageId, 10, 64)

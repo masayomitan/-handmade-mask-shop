@@ -16,7 +16,9 @@ export default NextAuth({
     async session({ session, token, user }) {
       session.token = token
 
-      const resultSession = setId(session)
+      //emailで検索するAPIを叩く
+      //あればsessionにID格納、なければ新規登録してID格納
+      const resultSession = setData(session)
       return resultSession;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
@@ -41,7 +43,7 @@ export default NextAuth({
   }
 })
 
-const setId = async (session) => {
+const setData = async (session) => {
   const apiBaseUrl = process.env.NEXT_PUBLIC_BASE_URL
   axios.defaults.baseURL = apiBaseUrl
   axios.defaults.headers.common = {
@@ -56,10 +58,11 @@ const setId = async (session) => {
   try {
     const response = await axios.post("front/api/costomer/get-by-email", request)
     let id = response.data;
+    console.log(response.data)
     session.user.id = id
   } catch (e) {
     if (e.response && e.response.status === 400) {
-      console.log('400 Error!!')
+      console.log(e)
     }
   }
   return session
